@@ -150,7 +150,7 @@
         .gif-popover{position:fixed;z-index:500;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:14px;width:280px;max-width:90vw;display:none;}
         .gif-popover.active{display:block;}
         .gif-popover-title{font-size:0.85rem;font-weight:600;color:var(--navy);margin-bottom:10px;line-height:1.35;padding-right:20px;}
-        /* Correction de l'image pour tout afficher */
+        /* Image affichée en entier (object-fit: contain) */
         .gif-popover img{width:100%;max-height:220px;border-radius:7px;object-fit:contain;background:var(--gray-100);}
         .gif-popover-close{position:absolute;top:10px;right:10px;background:var(--gray-100);border:none;cursor:pointer;color:var(--gray-500);padding:4px;border-radius:50%;line-height:1; display:flex;}
         .gif-placeholder{width:100%;height:150px;background:var(--gray-100);border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gray-400);font-size:0.75rem;gap:7px;text-align:center;line-height:1.4;}
@@ -225,10 +225,9 @@
             body * { visibility: hidden; }
             #gs_document-preview, #gs_document-preview * { visibility: visible; }
             
-            /* Définit le format A4 et une marge d'impression propre (1cm) */
             @page { 
                 size: A4 portrait; 
-                margin: 10mm; 
+                margin: 10mm; /* Marge d'un cm parfaite pour A4 */
             }
 
             #gs_document-preview {
@@ -243,12 +242,10 @@
                 border-radius: 0 !important;
             }
 
-            /* On supprime les paddings internes du conteneur car @page gère les marges */
             #gymSheetSection .gs-template2-styles {
                 padding: 0 !important; 
             }
 
-            /* Réduction drastique des textes et paddings pour tout faire rentrer */
             #gymSheetSection .gs-template2-styles th, 
             #gymSheetSection .gs-template2-styles td {
                 padding: 1px !important; 
@@ -256,9 +253,8 @@
                 line-height: 1 !important;
             }
 
-            /* Réduire le texte principal des éléments (était trop gros à 15pt) */
             #gymSheetSection .gs-template2-styles td[rowspan].pre-wrap-content {
-                font-size: 10pt !important; 
+                font-size: 10pt !important; /* Taille de texte d'élément réduite */
                 padding: 2px !important;
             }
             #gymSheetSection .gs-template2-styles td.category-data,
@@ -266,20 +262,17 @@
                 font-size: 10pt !important;
             }
 
-            /* Réduire la hauteur des cases de notation (M, PM, NM, NR) */
             #gymSheetSection .gs-template2-styles td.bold.center-text {
                 font-size: 6.5pt !important;
                 height: 12px !important; 
             }
             
-            /* Écraser les divs invisibles qui prenaient trop de hauteur */
             #gymSheetSection .gs-template2-styles .points-value div, 
             #gymSheetSection .gs-template2-styles .points-value-empty div {
                 min-height: 6px !important; 
                 height: 6px !important;
             }
 
-            /* Empêcher formellement la séparation du bloc du bas sur une 2ème page */
             #gymSheetSection .gs-template2-styles table:nth-of-type(2),
             #gymSheetSection .gs-template2-styles .signatures,
             #gymSheetSection .gs-template2-styles .final-grade-wrapper,
@@ -288,7 +281,6 @@
                 break-inside: avoid !important;
             }
             
-            /* Compresser un peu l'en-tête */
             #gymSheetSection .gs-template2-styles .document-header {
                 margin-bottom: 3px !important;
             }
