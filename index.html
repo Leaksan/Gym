@@ -1,3 +1,6 @@
+Voici le code complet corrigé, intégrant toutes les modifications de style et de structure nécessaires pour résoudre les problèmes de débordement, d'alignement et d'espacement.
+
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -181,8 +184,8 @@
 
         /* DOCUMENT PREVIEW */
         .gs-body-styles{font-family:"Times New Roman",Times,serif;color:#333; width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--gray-200); border-radius:var(--radius-sm); padding-bottom:10px;}
-        #gymSheetSection .gs-page-container{width:21cm;min-height:29.7cm;height:29.7cm;background:white;box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden;}
-        #gymSheetSection .gs-template2-styles{font-size:6.8pt;padding:6mm 7mm;box-sizing:border-box;width:100%;flex-grow:1;line-height:1.12;position:relative;display:flex;flex-direction:column;}
+        #gymSheetSection .gs-page-container{width:21cm;min-height:29.7cm;height:auto;background:white;box-sizing:border-box;display:flex;flex-direction:column;overflow:visible;}
+        #gymSheetSection .gs-template2-styles{font-size:6.8pt;padding:6mm 7mm;box-sizing:border-box;width:100%;flex-grow:1;line-height:1.12;position:relative;display:flex;flex-direction:column;overflow:visible !important;}
         #gymSheetSection .gs-template2-styles .document-header{border:1px solid #689f38;padding:1px;margin-bottom:4px;width:97%;margin-left:auto;margin-right:auto;}
         #gymSheetSection .gs-template2-styles .title-main{text-align:center;font-weight:bold;font-size:10.5pt;color:#333;margin-bottom:0.5px;text-transform:uppercase;}
         #gymSheetSection .gs-template2-styles .header-info{display:flex;justify-content:space-between;margin-bottom:0.5px;font-size:9pt;width:97%;margin-left:auto;margin-right:auto;}
@@ -203,21 +206,17 @@
         #gymSheetSection .gs-template2-styles p{margin-top:0;margin-bottom:0.06em;}
         #gymSheetSection .gs-template2-styles .nb-text{font-style:italic;color:#444;width:97%;margin-left:auto;margin-right:auto;}
         #gymSheetSection .gs-template2-styles .nb-text:first-of-type{margin-top:3px;margin-bottom:2px;font-size:7pt;}
-        #gymSheetSection .gs-template2-styles .signatures{margin:3px auto;width:100%;}
+        #gymSheetSection .gs-template2-styles .signatures{margin:2px auto 0 auto;width:100%;}
         #gymSheetSection .gs-template2-styles .signatures p{font-size:7pt;padding-left:12%;}
-        #gymSheetSection .gs-template2-styles .final-grade-wrapper{position:relative;height:26px;margin:4px auto 3px auto;width:97%;}
-        #gymSheetSection .gs-template2-styles .nb-text:nth-of-type(2){margin-top:3px;font-size:7pt;border:1px solid #689f38;padding:1.2px;}
-        #gymSheetSection .gs-template2-styles table:nth-of-type(2) td.input-cell-summary{height:18px;text-align:center;}
-        #gymSheetSection .gs-template2-styles .bracket-and-stem{position:absolute;height:1px;top:0;width:30%;left:68%;}
-        #gymSheetSection .gs-template2-styles .bracket-horizontal-base{position:absolute;top:0;left:1px;right:1px;height:0.5px;background-color:#333;}
-        #gymSheetSection .gs-template2-styles .bracket-arm-left, #gymSheetSection .gs-template2-styles .bracket-arm-right{position:absolute;top:-1.5px;height:4px;width:0.5px;background-color:#333;}
-        #gymSheetSection .gs-template2-styles .bracket-arm-left{left:0;} #gymSheetSection .gs-template2-styles .bracket-arm-right{right:0;}
-        #gymSheetSection .gs-template2-styles .bracket-vertical-stem{position:absolute;top:0.5px;left:50%;transform:translateX(-50%);width:0.5px;height:7px;background-color:#333;}
-        #gymSheetSection .gs-template2-styles .score-display-area{position:absolute;top:8px;left:0;width:100%;display:flex;flex-direction:column;align-items:center;}
-        #gymSheetSection .gs-template2-styles .final-score-label{font-size:7pt!important;margin-bottom:1px;}
-        #gymSheetSection .gs-template2-styles .final-score-value-box{border:1px solid green;height:16px;width:28px;}
+        #gymSheetSection .gs-template2-styles .final-grade-wrapper{position:relative;height:auto;min-height:26px;margin:2px auto 2px auto;width:97%;display:flex;justify-content:flex-end;align-items:center;}
+        #gymSheetSection .gs-template2-styles .nb-text:nth-of-type(2){margin-top:2px;margin-bottom:0;font-size:6.5pt;border:1px solid #689f38;padding:4px 6px;line-height:1.5;white-space:normal;word-break:break-word;}
+        #gymSheetSection .gs-template2-styles table:nth-of-type(2) td.input-cell-summary{height:10px;padding:0;line-height:1;text-align:center;}
+        #gymSheetSection .gs-template2-styles .bracket-and-stem{display:none;}
+        #gymSheetSection .gs-template2-styles .score-display-area{position:static;display:flex;flex-direction:column;align-items:flex-end;margin-right:0;}
+        #gymSheetSection .gs-template2-styles .final-score-label{font-size:7pt!important;margin-bottom:2px;text-align:right;}
+        #gymSheetSection .gs-template2-styles .final-score-value-box{border:1px solid green;height:16px;width:32px;background:white;}
         /* Tableau principal : hauteur auto pour s'adapter au nb d'éléments */
-        #gymSheetSection .gs-template2-styles .main-table-wrap{flex:1;overflow:hidden;}
+        #gymSheetSection .gs-template2-styles .main-table-wrap{flex:1;overflow:visible;}
         /* NB2 toujours en bas */
         #gymSheetSection .gs-template2-styles .bottom-section{margin-top:auto;}
 
@@ -246,7 +245,7 @@
             
             @page { 
                 size: A4 portrait; 
-                margin: 10mm; /* Marge d'un cm parfaite pour A4 */
+                margin: 10mm;
             }
 
             #gs_document-preview {
@@ -273,7 +272,7 @@
             }
 
             #gymSheetSection .gs-template2-styles td[rowspan].pre-wrap-content {
-                font-size: 10pt !important; /* Taille de texte d'élément réduite */
+                font-size: 10pt !important;
                 padding: 2px !important;
             }
             #gymSheetSection .gs-template2-styles td.category-data,
@@ -665,7 +664,6 @@ function goToStep(n){
         if(!document.getElementById('doc_tbody'))loadDocumentTemplate();
         renderElementControls();
         updateDocumentFilename();
-        // Afficher l'alerte uniquement si enchaînement généré auto
         const alerte=document.getElementById('alertTheorique');
         if(alerte)alerte.style.display=window._seqIsGenerated?'flex':'none';
     }
@@ -773,7 +771,6 @@ function acceptSequence(){
         elementsTechniques.push({id:elementIdCounter,nom:el.nom,categorie:el.cat,points:el.pts});
     });
     completedSteps.add(2);
-    // Marquer comme théorique pour l'alerte en step 3
     window._seqIsGenerated=true;
     goToStep(3);
 }
@@ -827,15 +824,12 @@ function loadDocumentTemplate(){
             <p><strong>Correcteur ROV :</strong> ........................................................................................</p>
         </div>
         <div class="final-grade-wrapper">
-            <div class="bracket-and-stem">
-                <span class="bracket-arm-left"></span><span class="bracket-horizontal-base"></span><span class="bracket-arm-right"></span><span class="bracket-vertical-stem"></span>
-            </div>
             <div class="score-display-area">
                 <p class="final-score-label"><strong>Note finale/20</strong></p>
                 <div class="final-score-value-box"></div>
             </div>
         </div>
-        <p style="margin-top:3px;font-size:6.5pt;font-style:italic;color:#444;border:1px solid #689f38;padding:2px 3px;display:block;width:97%;margin-left:auto;margin-right:auto;line-height:1.3;"><strong>NB2 :</strong> Après le choix des catégories d'éléments gymniques par le candidat, ce dernier remplira la colonne de pointage selon l'orientation suivante : A (0.25 ; 0.5 ; 0.75 ; 1) B (0.25 ; 0.5 ; 0.75 ; 1 ; 1.25 ; 1.5) C (0.5 ; 0.75 ; 1 ; 1.25 ; 1.5 ; 2) D (0.75 ; 1 ; 1.25 ; 1.5 ; 2 ; 2.5) et E (0.75 ; 1 ; 1.5 ; 2 ; 2.5 ; 3) aussi, il sera exigé au candidat 2 copies de son projet sur une page ! <strong>appréciations</strong> : NR (non réalisation) NM (non maîtrisé), <strong>PM</strong> (peu maîtrisé) et <strong>M</strong> (maîtrisé).</p>
+        <p style="margin-top:3px;font-size:6.5pt;font-style:italic;color:#444;border:1px solid #689f38;padding:4px 6px;display:block;width:97%;margin-left:auto;margin-right:auto;line-height:1.5;white-space:normal;word-break:break-word;"><strong>NB2 :</strong> Après le choix des catégories d'éléments gymniques par le candidat, ce dernier remplira la colonne de pointage selon l'orientation suivante : A (0.25 ; 0.5 ; 0.75 ; 1) B (0.25 ; 0.5 ; 0.75 ; 1 ; 1.25 ; 1.5) C (0.5 ; 0.75 ; 1 ; 1.25 ; 1.5 ; 2) D (0.75 ; 1 ; 1.25 ; 1.5 ; 2 ; 2.5) et E (0.75 ; 1 ; 1.5 ; 2 ; 2.5 ; 3) aussi, il sera exigé au candidat 2 copies de son projet sur une page ! <strong>appréciations</strong> : NR (non réalisation) NM (non maîtrisé), <strong>PM</strong> (peu maîtrisé) et <strong>M</strong> (maîtrisé).</p>
         </div>
     </div>`;
     updatePreview();
@@ -850,7 +844,6 @@ function updatePreview(){
     set('doc_examen',candidatData.type_examen||'—');
     set('doc_session',candidatData.session||'—');
     
-    // Titre reste constant 
     set('doc_title', 'PROJET INDIVIDUEL DE GYMNASTIQUE');
 
     const tbody=document.getElementById('doc_tbody');
@@ -1014,7 +1007,6 @@ function handleModeChoice(mode){
     if(mode==='generate'){
         generateSequence();
     } else {
-        // Mode manuel : passer directement à l'étape 3 avec liste vide
         elementsTechniques=[];elementIdCounter=0;
         completedSteps.add(2);
         document.getElementById('alertTheorique').style.display='none';
@@ -1029,7 +1021,6 @@ async function exportPDF(){
     btn.disabled=true;
     try {
         const preview=document.getElementById('gs_document-preview');
-        // Charger les libs si pas encore chargées
         if(!window.html2canvas){
             await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
         }
@@ -1048,7 +1039,6 @@ async function exportPDF(){
         if(imgH<=pageH){
             pdf.addImage(imgData,'JPEG',0,0,imgW,imgH);
         } else {
-            // Pagination si contenu dépasse une page
             let remaining=imgH;
             while(remaining>0){
                 pdf.addImage(imgData,'JPEG',0,-y,imgW,imgH);
@@ -1093,15 +1083,14 @@ function showGifPreview(event,id){
           
     const btn=event.currentTarget;
     const rect=btn.getBoundingClientRect();
-    const pw=280; // Popover width
+    const pw=280;
     
-    let left = rect.left - (pw - rect.width) / 2; // Center horizontally aligned with button
+    let left = rect.left - (pw - rect.width) / 2;
     let top = rect.bottom + 8;
     
-    // Bounds check
     if(left < 8) left = 8;
     if(left + pw > window.innerWidth - 8) left = window.innerWidth - pw - 8;
-    if(top + 280 > window.innerHeight) top = rect.top - 280 - 8; // Show above if no room below
+    if(top + 280 > window.innerHeight) top = rect.top - 280 - 8;
     
     popover.style.left=`${Math.max(8,left)}px`;
     popover.style.top=`${Math.max(8,top)}px`;
@@ -1119,3 +1108,4 @@ updateStepper();
 </script>
 </body>
 </html>
+```
