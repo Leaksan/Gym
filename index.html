@@ -190,8 +190,8 @@
         #gymSheetSection .gs-template2-styles .header-info .info-right{padding-left:10px;box-sizing:border-box;flex-basis:45%;text-align:left;}
         #gymSheetSection .gs-template2-styles .session-info{text-align:center;font-weight:bold;font-size:9.5pt;margin-top:0.5px;}
         #gymSheetSection .gs-template2-styles table{border-collapse:collapse;position:relative;}
-        #gymSheetSection .gs-template2-styles table:first-of-type{width:100%!important;margin:3px 0!important;}
-        #gymSheetSection .gs-template2-styles table:nth-of-type(2){width:97%!important;margin:3px auto!important;}
+        #gymSheetSection .gs-template2-styles table:first-of-type{width:100%!important;margin:3px 0 0 0!important;}
+        #gymSheetSection .gs-template2-styles table:nth-of-type(2){width:97%!important;margin:0 auto!important;}
         #gymSheetSection .gs-template2-styles th, #gymSheetSection .gs-template2-styles td{border:1px solid #888;padding:1px 2px;text-align:left;vertical-align:top;font-size:6.8pt;line-height:1.1;font-weight:bold;}
         #gymSheetSection .gs-template2-styles th{background-color:#fff;text-align:center;vertical-align:middle;}
         #gymSheetSection .gs-template2-styles td{font-size:10.5pt;}
@@ -201,21 +201,21 @@
         #gymSheetSection .gs-template2-styles .points-value div{min-height:1.8px;}
         #gymSheetSection .gs-template2-styles td[rowspan].pre-wrap-content{text-align:center;vertical-align:middle;font-size:12pt;}
         #gymSheetSection .gs-template2-styles p{margin-top:0;margin-bottom:0.06em;}
-        #gymSheetSection .gs-template2-styles .nb-text{font-style:italic;color:#444;width:97%;margin-left:auto;margin-right:auto;}
-        #gymSheetSection .gs-template2-styles .nb-text:first-of-type{margin-top:3px;margin-bottom:2px;font-size:7pt;}
+        
+        /* Textes sous le premier tableau : augmentation de 5pt */
+        #gymSheetSection .gs-template2-styles .nb-text:first-of-type{margin-top:3px;margin-bottom:2px;font-size:12pt; /* 7pt +5 =12pt */ line-height:1.3;}
         #gymSheetSection .gs-template2-styles .signatures{margin:2px auto 0 auto;width:100%;}
-        #gymSheetSection .gs-template2-styles .signatures p{font-size:7pt;padding-left:12%;}
-        #gymSheetSection .gs-template2-styles .final-grade-wrapper{position:relative;height:auto;min-height:26px;margin:2px auto 2px auto;width:97%;display:flex;justify-content:flex-end;align-items:center;}
-        #gymSheetSection .gs-template2-styles .nb-text:nth-of-type(2){margin-top:2px;margin-bottom:0;font-size:6.5pt;border:1px solid #689f38;padding:4px 6px;line-height:1.5;white-space:normal;word-break:break-word;}
+        #gymSheetSection .gs-template2-styles .signatures p{font-size:12pt; /* 7pt+5 */ padding-left:12%; margin:2px 0;}
+        #gymSheetSection .gs-template2-styles .final-grade-wrapper{position:relative;height:auto;min-height:35px;margin:2px auto 2px auto;width:97%;display:flex;justify-content:flex-end;align-items:center;}
+        #gymSheetSection .gs-template2-styles .final-score-label{font-size:12pt!important; /* 7pt+5 */ margin-bottom:4px;text-align:right;}
+        #gymSheetSection .gs-template2-styles .final-score-value-box{border:1px solid green;height:22px;width:40px;background:white;}
+        #gymSheetSection .gs-template2-styles .nb-text:nth-of-type(2){margin-top:2px;margin-bottom:0;font-size:11.5pt; /* 6.5pt+5 */ border:1px solid #689f38;padding:4px 6px;line-height:1.5;white-space:normal;word-break:break-word;}
         #gymSheetSection .gs-template2-styles table:nth-of-type(2) td.input-cell-summary{height:10px;padding:0;line-height:1;text-align:center;}
         #gymSheetSection .gs-template2-styles .bracket-and-stem{display:none;}
         #gymSheetSection .gs-template2-styles .score-display-area{position:static;display:flex;flex-direction:column;align-items:flex-end;margin-right:0;}
-        #gymSheetSection .gs-template2-styles .final-score-label{font-size:7pt!important;margin-bottom:2px;text-align:right;}
-        #gymSheetSection .gs-template2-styles .final-score-value-box{border:1px solid green;height:16px;width:32px;background:white;}
-        /* Tableau principal : hauteur auto pour s'adapter au nb d'éléments */
+        
         #gymSheetSection .gs-template2-styles .main-table-wrap{flex:1;overflow:visible;}
-        /* NB2 toujours en bas */
-        #gymSheetSection .gs-template2-styles .bottom-section{margin-top:auto;}
+        #gymSheetSection .gs-template2-styles .bottom-section{margin-top:0;}
 
         /* MODE COMPACT (plus de 8 éléments) */
         #gs_document-preview.compact .gs-template2-styles { font-size: 6.2pt; }
@@ -223,19 +223,19 @@
         #gs_document-preview.compact .gs-template2-styles .title-main { font-size: 9pt; }
         #gs_document-preview.compact .gs-template2-styles .header-info { font-size: 8pt; }
         #gs_document-preview.compact .gs-template2-styles .session-info { font-size: 8.5pt; margin-top: 0; }
-        #gs_document-preview.compact .gs-template2-styles table:first-of-type { margin: 1px 0 !important; }
+        #gs_document-preview.compact .gs-template2-styles table:first-of-type { margin: 1px 0 0 0 !important; }
         #gs_document-preview.compact .gs-template2-styles td, 
         #gs_document-preview.compact .gs-template2-styles th { padding: 0.5px 1px; font-size: 6pt; line-height: 1; }
         #gs_document-preview.compact .gs-template2-styles td.category-data,
         #gs_document-preview.compact .gs-template2-styles td.points-data { font-size: 9pt; }
         #gs_document-preview.compact .gs-template2-styles td.bold.center-text { font-size: 5.5pt; }
         #gs_document-preview.compact .gs-template2-styles td[rowspan].pre-wrap-content { font-size: 9pt; padding: 1px; }
-        #gs_document-preview.compact .gs-template2-styles .nb-text:first-of-type { margin-top: 1px; margin-bottom: 1px; font-size: 6pt; }
-        #gs_document-preview.compact .gs-template2-styles .signatures p { font-size: 6pt; margin: 0.5px 0; }
-        #gs_document-preview.compact .gs-template2-styles .final-grade-wrapper { min-height: 20px; margin: 1px auto; }
-        #gs_document-preview.compact .gs-template2-styles .final-score-label { font-size: 6pt !important; }
-        #gs_document-preview.compact .gs-template2-styles .final-score-value-box { height: 14px; width: 28px; }
-        #gs_document-preview.compact .gs-template2-styles .nb-text:nth-of-type(2) { padding: 2px 4px; font-size: 5.8pt; line-height: 1.3; }
+        #gs_document-preview.compact .gs-template2-styles .nb-text:first-of-type { margin-top: 1px; margin-bottom: 1px; font-size: 10pt; }
+        #gs_document-preview.compact .gs-template2-styles .signatures p { font-size: 10pt; margin: 0.5px 0; }
+        #gs_document-preview.compact .gs-template2-styles .final-grade-wrapper { min-height: 28px; margin: 1px auto; }
+        #gs_document-preview.compact .gs-template2-styles .final-score-label { font-size: 10pt !important; }
+        #gs_document-preview.compact .gs-template2-styles .final-score-value-box { height: 18px; width: 34px; }
+        #gs_document-preview.compact .gs-template2-styles .nb-text:nth-of-type(2) { padding: 2px 4px; font-size: 9.5pt; line-height: 1.3; }
 
         /* MEDIA QUERIES ECRANS LARGES (Tablet & PC) */
         @media(min-width: 560px) {
@@ -320,7 +320,6 @@
                 margin-bottom: 3px !important;
             }
 
-            /* Mode compact aussi en impression */
             #gs_document-preview.compact .gs-template2-styles td,
             #gs_document-preview.compact .gs-template2-styles th {
                 padding: 0.5px !important;
@@ -856,7 +855,7 @@ function loadDocumentTemplate(){
                 <div class="final-score-value-box"></div>
             </div>
         </div>
-        <p style="margin-top:3px;font-size:6.5pt;font-style:italic;color:#444;border:1px solid #689f38;padding:4px 6px;display:block;width:97%;margin-left:auto;margin-right:auto;line-height:1.5;white-space:normal;word-break:break-word;"><strong>NB2 :</strong> Après le choix des catégories d'éléments gymniques par le candidat, ce dernier remplira la colonne de pointage selon l'orientation suivante : A (0.25 ; 0.5 ; 0.75 ; 1) B (0.25 ; 0.5 ; 0.75 ; 1 ; 1.25 ; 1.5) C (0.5 ; 0.75 ; 1 ; 1.25 ; 1.5 ; 2) D (0.75 ; 1 ; 1.25 ; 1.5 ; 2 ; 2.5) et E (0.75 ; 1 ; 1.5 ; 2 ; 2.5 ; 3) aussi, il sera exigé au candidat 2 copies de son projet sur une page ! <strong>appréciations</strong> : NR (non réalisation) NM (non maîtrisé), <strong>PM</strong> (peu maîtrisé) et <strong>M</strong> (maîtrisé).</p>
+        <p style="margin-top:3px;font-style:italic;color:#444;border:1px solid #689f38;padding:4px 6px;display:block;width:97%;margin-left:auto;margin-right:auto;white-space:normal;word-break:break-word;"><strong>NB2 :</strong> Après le choix des catégories d'éléments gymniques par le candidat, ce dernier remplira la colonne de pointage selon l'orientation suivante : A (0.25 ; 0.5 ; 0.75 ; 1) B (0.25 ; 0.5 ; 0.75 ; 1 ; 1.25 ; 1.5) C (0.5 ; 0.75 ; 1 ; 1.25 ; 1.5 ; 2) D (0.75 ; 1 ; 1.25 ; 1.5 ; 2 ; 2.5) et E (0.75 ; 1 ; 1.5 ; 2 ; 2.5 ; 3) aussi, il sera exigé au candidat 2 copies de son projet sur une page ! <strong>appréciations</strong> : NR (non réalisation) NM (non maîtrisé), <strong>PM</strong> (peu maîtrisé) et <strong>M</strong> (maîtrisé).</p>
         </div>
     </div>`;
     updatePreview();
@@ -886,7 +885,6 @@ function updatePreview(){
         });
     });
     updateTotalBadge();
-    // Ajoute ou retire la classe compact selon le nombre d'éléments
     const preview = document.getElementById('gs_document-preview');
     if (preview) {
         if (elementsTechniques.length > 8) {
@@ -903,7 +901,7 @@ function updateTotalBadge(){
     if(b)b.textContent=`Total : ${total.toFixed(1)} / 16 pts`;
 }
 
-/* ═══════════════ ELEMENT CONTROLS (Mobile: boutons ↑↓) ═══════════════ */
+/* ═══════════════ ELEMENT CONTROLS ═══════════════ */
 function renderElementControls(){
     const container=document.getElementById('gs_elements-controls-container');
     if(!container)return;
@@ -1050,7 +1048,7 @@ function handleModeChoice(mode){
     }
 }
 
-/* ═══════════════ EXPORT PDF (html2canvas + jsPDF) ═══════════════ */
+/* ═══════════════ EXPORT PDF ═══════════════ */
 async function exportPDF(){
     const btn=document.getElementById('btn-finish-pdf');
     btn.textContent='⏳ Génération en cours…';
