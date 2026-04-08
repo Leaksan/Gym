@@ -283,7 +283,813 @@
     </style>
 </head>
 <body>
-<!-- Le reste du code HTML et JavaScript est identique à la version précédente (non modifié) -->
-<!-- ... (tout le contenu après le style jusqu'à la fin) ... -->
+
+<!-- HEADER -->
+<header class="app-header">
+    <a class="logo" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        GymCoach Gabon
+    </a>
+    <nav class="stepper" id="mainStepper">
+        <div class="step-item active" data-step="1" onclick="goToStep(1)">
+            <div class="step-dot">1</div>
+            <span class="step-label">Candidat</span>
+        </div>
+        <div class="step-sep"></div>
+        <div class="step-item disabled" data-step="2" onclick="goToStep(2)">
+            <div class="step-dot">2</div>
+            <span class="step-label">Profil</span>
+        </div>
+        <div class="step-sep"></div>
+        <div class="step-item disabled" data-step="3" onclick="goToStep(3)">
+            <div class="step-dot">3</div>
+            <span class="step-label">Enchaînement</span>
+        </div>
+    </nav>
+</header>
+
+<!-- GIF POPOVER -->
+<div class="gif-popover" id="gifPopover">
+    <button class="gif-popover-close" onclick="closeGifPopover()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="gif-popover-title" id="gifPopoverTitle"></div>
+    <div id="gifPopoverContent"></div>
+</div>
+
+<div id="gymSheetSection">
+
+    <!-- ═══ STEP 1 — CANDIDAT ═══ -->
+    <div class="step-panel active page-body" id="step1">
+        <div class="panel-title">Informations du candidat</div>
+        <p class="panel-sub">Ces informations apparaîtront sur la fiche officielle.</p>
+        <div class="card">
+            <div class="form-grid">
+                <div class="field-group" style="grid-column:1/-1;">
+                    <label class="field-label">Nom et prénom du candidat *</label>
+                    <input type="text" id="s1_nom" class="field-input" placeholder="Ex : DUPONT Alice">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Établissement d'origine</label>
+                    <input type="text" id="s1_etablissement" class="field-input" placeholder="Ex : Lycée Simone Veil">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Centre d'examen</label>
+                    <input type="text" id="s1_centre" class="field-input" placeholder="Ex : Lycée Jean Monnet">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Type d'examen</label>
+                    <input type="text" id="s1_type_examen" class="field-input" placeholder="Ex : Baccalauréat Général">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Série</label>
+                    <input type="text" id="s1_serie" class="field-input" placeholder="Ex : Scientifique">
+                </div>
+                <div class="field-group" style="grid-column:1/-1;">
+                    <label class="field-label">Session</label>
+                    <input type="text" id="s1_session" class="field-input" placeholder="Ex : 2025" style="max-width:160px;">
+                </div>
+            </div>
+        </div>
+        <div class="btn-actions">
+            <button class="btn btn-primary" onclick="validateStep1()">
+                Suivant
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══ STEP 2 — PROFIL ═══ -->
+    <div class="step-panel page-body" id="step2">
+        <div class="panel-title">Profil du candidat</div>
+        <p class="panel-sub">Le genre et la condition physique permettent de générer un enchaînement adapté visant 15,5 – 16 points.</p>
+        <div class="card">
+            <div class="profile-section">
+                <div class="profile-section-title">Genre</div>
+                <div class="profile-cards">
+                    <div class="profile-card" data-group="genre" data-val="garcon" onclick="selectProfile(this)">
+                        <div class="pc-icon">♂</div>
+                        <div class="pc-label">Garçon</div>
+                    </div>
+                    <div class="profile-card" data-group="genre" data-val="fille" onclick="selectProfile(this)">
+                        <div class="pc-icon">♀</div>
+                        <div class="pc-label">Fille</div>
+                        <div class="pc-sub">Pirouettes incluses</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <div class="profile-section-title">Condition physique</div>
+                <div class="slider-wrap">
+                    <div class="slider-labels"><span>😴 Flemmard</span><span>🏆 Athlète</span></div>
+                    <input type="range" id="fitnessSlider" min="1" max="5" value="3" oninput="updateFitnessLabel()">
+                    <div class="slider-val" id="fitnessLabel">Intermédiaire 🏃</div>
+                </div>
+            </div>
+
+            <!-- Choix du mode -->
+            <div id="modeChoiceBox">
+                <div class="profile-section-title" style="margin-top:4px;">Comment veux-tu créer l'enchaînement ?</div>
+                <div class="mode-cards">
+                    <div class="mode-card" onclick="handleModeChoice('generate')">
+                        <div class="mc-icon">⚡</div>
+                        <div class="mc-label">Me proposer un exemple</div>
+                        <div class="mc-sub">L'app génère un enchaînement à adapter</div>
+                    </div>
+                    <div class="mode-card" onclick="handleModeChoice('manual')">
+                        <div class="mc-icon">✏️</div>
+                        <div class="mc-label">Créer le mien</div>
+                        <div class="mc-sub">Je saisis mes éléments moi-même</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="seq-preview" id="seqPreviewBox" style="display:none;">
+                <div class="alert-info">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span>Cet enchaînement est <strong>théorique</strong> — il est basé uniquement sur les points. Tu dois l'adapter au niveau réel du candidat avant de le valider.</span>
+                </div>
+                <div class="seq-preview-title">
+                    Enchaînement suggéré
+                    <span class="seq-badge" id="seqTotalBadge">0 pts</span>
+                </div>
+                <ul class="seq-list" id="seqPreviewList"></ul>
+                <div class="seq-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="generateSequence()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+                        Autre proposition
+                    </button>
+                    <button class="btn btn-primary btn-sm" onclick="acceptSequence()">
+                        Utiliser cet enchaînement
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-actions">
+            <button class="btn btn-secondary" onclick="goToStep(1)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                Retour
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══ STEP 3 — ÉDITEUR ═══ -->
+    <div class="step-panel page-body wide" id="step3">
+        <div style="margin-bottom:16px;">
+            <div class="panel-title" style="margin-bottom:3px;">Enchaînement & Fiche</div>
+            <p style="font-size:0.875rem;color:var(--gray-500);margin-bottom:0;">Ajustez, réorganisez, puis exportez.</p>
+        </div>
+
+        <div class="alert-info" id="alertTheorique" style="display:none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>Enchaînement <strong>théorique</strong> généré automatiquement. Vérifie chaque élément et adapte-le au niveau réel du candidat avant de finaliser.</span>
+        </div>
+
+        <div class="card" style="margin-bottom:20px;">
+            <div class="el-editor-header">
+                <h3>Mon Enchaînement</h3>
+                <span class="total-badge" id="gs_total_badge">Total : 0 / 16 pts</span>
+            </div>
+            <div id="gs_elements-controls-container"></div>
+            <button class="btn-add-dashed" id="gs_add-element-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Ajouter un élément
+            </button>
+        </div>
+
+        <div class="gs-body-styles">
+            <div id="gs_document-preview" class="gs-page-container"></div>
+        </div>
+
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px;">
+            <button class="btn-finish" id="btn-finish-pdf" onclick="exportPDF()">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                J'ai fini !
+            </button>
+            <button class="btn btn-secondary" onclick="goToStep(2)" style="width:100%;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                Retour
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+/* ═══════════════ DATABASE ═══════════════ */
+const GYM_DB={
+    liaisons:["1/4 de tour","1/2 tour","3/4 de tour","Bascule avant","Bascule arrière","élan","sursaut préparatoire","fente avant","rebond","impulsion","Planche en V","décubitus ventral","décubitus dorsal","1/2 tour sur le long du corps","attitude sur 1 ou 2pieds","Fente avant","Pointe avant","Assis, jambes tendues","sur les genoux","Tour enveloppé","Pas de danse"],
+    elements:[
+        {nom:"Enjambé",cat:"A",pts:"1",genre:"mixte"},{nom:"Groupé",cat:"A",pts:"1",genre:"mixte"},{nom:"Biche",cat:"A",pts:"1",genre:"mixte"},{nom:"Chat",cat:"A",pts:"1",genre:"mixte"},{nom:"Tournant",cat:"A",pts:"1",genre:"mixte"},{nom:"Sissonne",cat:"A",pts:"1",genre:"mixte"},{nom:"Assemblé sauté",cat:"A",pts:"1",genre:"mixte"},{nom:"Croix de saint André",cat:"A",pts:"1",genre:"mixte"},
+        {nom:"Vertical Tour complet",cat:"B",pts:"1.5",genre:"mixte"},{nom:"Groupé 1/2tour",cat:"B",pts:"1.5",genre:"mixte"},{nom:"Carpé jambes tendues serrées",cat:"B",pts:"1.5",genre:"mixte"},{nom:"Carpé jambes écartées",cat:"B",pts:"1.5",genre:"mixte"},{nom:"Chat 1/2 tour",cat:"B",pts:"1.5",genre:"mixte"},
+        {nom:"Vertical tour complet +1/2tour",cat:"C",pts:"2",genre:"mixte"},{nom:"Groupé tour complet",cat:"C",pts:"2",genre:"mixte"},{nom:"Chat tour complet",cat:"C",pts:"2",genre:"mixte"},{nom:"Changement de jambes",cat:"C",pts:"2",genre:"mixte"},{nom:"Assemblé saut de biche",cat:"C",pts:"2",genre:"mixte"},{nom:"Assemblé sissonne",cat:"C",pts:"2",genre:"mixte"},
+        {nom:"Cosaque",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Chat tour complet + 1/2tour",cat:"D",pts:"2.5",genre:"mixte"},
+        {nom:"Salto avant groupé",cat:"E",pts:"3",genre:"mixte"},{nom:"saut de l'ange",cat:"E",pts:"3",genre:"mixte"},{nom:"vrille avant",cat:"E",pts:"3",genre:"mixte"},
+        {nom:"Roulade Avant Groupée ou simple",cat:"A",pts:"1",genre:"mixte"},
+        {nom:"Roulade Avant Jambes écartées",cat:"B",pts:"1.5",genre:"mixte"},{nom:"Roulade Avant Elevée",cat:"B",pts:"1.5",genre:"mixte"},{nom:"Roulade Avant arrivée en Fente",cat:"B",pts:"1.5",genre:"mixte"},
+        {nom:"Roulade Avant arrivée jambes tendues",cat:"C",pts:"2",genre:"mixte"},{nom:"Avant plombée (poisson)",cat:"C",pts:"2",genre:"mixte"},
+        {nom:"Flip avant",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Saut de poisson",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Saut de mains",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Saut de tête",cat:"D",pts:"2.5",genre:"mixte"},
+        {nom:"Roulade Arrière Groupée ou simple",cat:"A",pts:"1",genre:"mixte"},
+        {nom:"Roulade Arrière Jambes écartées",cat:"B",pts:"1.5",genre:"mixte"},{nom:"Roulade Arrière arrivée en fente",cat:"B",pts:"1.5",genre:"mixte"},{nom:"Roulade Arrière arrivée sur 1genou",cat:"B",pts:"1.5",genre:"mixte"},
+        {nom:"Roulade Arrière piquée",cat:"C",pts:"2",genre:"mixte"},{nom:"Roulade Arrière arrivée jambes tendues",cat:"C",pts:"2",genre:"mixte"},
+        {nom:"Roulade arrière repoussée en ATR",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Flip flap ou flip arrière",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Saut de nuque ou bascule de nuque",cat:"D",pts:"2.5",genre:"mixte"},
+        {nom:"Salto arrière groupé",cat:"E",pts:"3",genre:"mixte"},{nom:"Arrière tendu ou carpé",cat:"E",pts:"3",genre:"mixte"},{nom:"vrille arrière",cat:"E",pts:"3",genre:"mixte"},
+        {nom:"Roue (2mains)",cat:"A",pts:"1",genre:"mixte"},
+        {nom:"Rondade",cat:"B",pts:"1.5",genre:"mixte"},{nom:"Roue (1/4tour intérieur)",cat:"B",pts:"1.5",genre:"mixte"},
+        {nom:"Roue 1main",cat:"C",pts:"2",genre:"mixte"},{nom:"Rondade saut carpé",cat:"C",pts:"2",genre:"mixte"},{nom:"Roue pied pied",cat:"C",pts:"2",genre:"mixte"},{nom:"2 roues enchaînées",cat:"C",pts:"2",genre:"mixte"},
+        {nom:"Roue vrillée ou arabe",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Rondade flip",cat:"D",pts:"2.5",genre:"mixte"},
+        {nom:"Salto costal",cat:"E",pts:"3",genre:"mixte"},{nom:"Rondade salto",cat:"E",pts:"3",genre:"mixte"},
+        {nom:"Planche Au sol, écrasée",cat:"A",pts:"1",genre:"mixte"},
+        {nom:"Equerre groupé (2'')",cat:"B",pts:"1.5",genre:"mixte"},{nom:"Planche Faciale (2'')",cat:"B",pts:"1.5",genre:"mixte"},
+        {nom:"Planche groupée, costale",cat:"C",pts:"2",genre:"mixte"},{nom:"Crocodile (2mains)",cat:"C",pts:"2",genre:"mixte"},
+        {nom:"Equerre (tendu/écart)",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Planche Y (2'')",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Planche crocodile (1main)",cat:"D",pts:"2.5",genre:"mixte"},
+        {nom:"Chandelle (tenue 2'')",cat:"A",pts:"1",genre:"mixte"},{nom:"ATR passager",cat:"A",pts:"1",genre:"mixte"},{nom:"Trépied simple",cat:"A",pts:"1",genre:"mixte"},
+        {nom:"Trépied (2'')",cat:"B",pts:"1.5",genre:"mixte"},{nom:"ATR tenu (2'')",cat:"B",pts:"1.5",genre:"mixte"},{nom:"ATR repoussé",cat:"B",pts:"1.5",genre:"mixte"},{nom:"Pilou pilou ou tap tap",cat:"B",pts:"1.5",genre:"mixte"},
+        {nom:"ATR en force (départ libre)",cat:"C",pts:"2",genre:"mixte"},{nom:"Trépied repoussé en ATR",cat:"C",pts:"2",genre:"mixte"},{nom:"ATR 1/2 valse",cat:"C",pts:"2",genre:"mixte"},{nom:"ATR + Pont (2'')",cat:"C",pts:"2",genre:"mixte"},
+        {nom:"ATR valse",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Croix de fer",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Chandelle repoussée en ATR (2'')",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Trépied repoussé en ATR (tenu 2'')",cat:"D",pts:"2.5",genre:"mixte"},
+        {nom:"ATR en force valse",cat:"E",pts:"3",genre:"mixte"},{nom:"ATR double valse",cat:"E",pts:"3",genre:"mixte"},
+        {nom:"Ecrasement facial",cat:"A",pts:"1",genre:"mixte"},
+        {nom:"Pont",cat:"B",pts:"1.5",genre:"mixte"},{nom:"Tourniquet (couronnée 2jambes)",cat:"B",pts:"1.5",genre:"mixte"},
+        {nom:"Pont 1jambe",cat:"C",pts:"2",genre:"mixte"},{nom:"Cobra 1pied",cat:"C",pts:"2",genre:"mixte"},
+        {nom:"Grand écart",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Pont souplesse",cat:"D",pts:"2.5",genre:"mixte"},{nom:"Souplesse Avant/Arrière",cat:"D",pts:"2.5",genre:"mixte"},
+        {nom:"Cobra royal",cat:"E",pts:"3",genre:"mixte"},{nom:"2 cercles de thomas ou Russe",cat:"E",pts:"3",genre:"mixte"},{nom:"Souplesse Arrière bloquée à l'ATR",cat:"E",pts:"3",genre:"mixte"},
+        {nom:"Pirouette 1/2 tour",cat:"A",pts:"1",genre:"fille"},{nom:"Pirouette Tour complet",cat:"B",pts:"1.5",genre:"fille"},{nom:"Pirouette 1Tour + 1/2 Tr",cat:"C",pts:"2",genre:"fille"},{nom:"Pirouette 2 tours",cat:"D",pts:"2.5",genre:"fille"}
+    ]
+};
+
+// GIF map — clés normalisées
+const GIF_MAP={
+    "prise d elan":"https://bernard-lefort-eps.fr/gym/sol_anime/elanani.gif",
+    "saut groupe":"https://bernard-lefort-eps.fr/gym/sol_anime/SautGroupe.GIF",
+    "saut carpe":"https://bernard-lefort-eps.fr/gym/sol_anime/SautCarpe.GIF",
+    "saut vertical 1/2 tour":"https://bernard-lefort-eps.fr/gym/sol_anime/SautDTour.GIF",
+    "saut vertical tour complet":"https://bernard-lefort-eps.fr/gym/sol_anime/SautTour.GIF",
+    "debout tour complet sur 1 jambe":"https://bernard-lefort-eps.fr/gym/sol_anime/tourcomplet.GIF",
+    "couronne 1":"https://bernard-lefort-eps.fr/gym/sol_anime/couronne.gif",
+    "couronne 1/2 tour":"https://bernard-lefort-eps.fr/gym/sol_anime/cercle-jambe2.gif",
+    "de l appui facial , tour complet":"https://bernard-lefort-eps.fr/gym/sol_anime/soltourcomplet.GIF",
+    "saut assemble, saut de biche":"https://bernard-lefort-eps.fr/gym/sol_anime/AsSautBiche.GIF",
+    "saut assemble, sissone":"https://bernard-lefort-eps.fr/gym/sol_anime/AssembleSissone.GIF",
+    "saut de chat":"https://bernard-lefort-eps.fr/gym/sol_anime/SautChat.GIF",
+    "grand jete changement, pied tete":"https://bernard-lefort-eps.fr/gym/sol_anime/Grand-jete-changement-pied-tete.gif",
+    "saut de chat 1 tour":"https://bernard-lefort-eps.fr/gym/sol_anime/SautChat_1Tour.gif",
+    "saut tournant":"https://bernard-lefort-eps.fr/gym/sol_anime/SautTournant.GIF",
+    "saut cosaque":"https://bernard-lefort-eps.fr/gym/sol_anime/Saut_cosaque.gif",
+    "roulade avant simple":"https://bernard-lefort-eps.fr/gym/sol_anime/RldeAvtSimple.gif",
+    "roulade avant elevee arrivee jambes groupees":"https://bernard-lefort-eps.fr/gym/sol_anime/RldeAvtElevee.GIF",
+    "roulade avant elevee, impulsion sur 1 jambe":"https://bernard-lefort-eps.fr/gym/sol_anime/Roulade%20avant,%20impulsion%20sur%201%20appui.gif",
+    "fente, roulade avant":"https://bernard-lefort-eps.fr/gym/sol_anime/fenterldeavat.GIF",
+    "roulade avant arrivee jambes tendues":"https://bernard-lefort-eps.fr/gym/sol_anime/RldeAvttendue.GIF",
+    "roulade avant arrivee jambes ecarts":"https://bernard-lefort-eps.fr/gym/sol_anime/RldeAvtecart.GIF",
+    "roulade avant arrivee sur 1 jambe":"https://bernard-lefort-eps.fr/gym/sol_anime/rldeavt1jbe.gif",
+    "roulade avant, sans les mains":"https://bernard-lefort-eps.fr/gym/sol_anime/Roulade_avant_sans_mains.gif",
+    "saut de l ange":"https://bernard-lefort-eps.fr/gym/sol_anime/SautAnge.GIF",
+    "saut de l ange vrille":"https://bernard-lefort-eps.fr/gym/sol_anime/saut_ange_vrille.gif",
+    "roulade arriere groupee":"https://bernard-lefort-eps.fr/gym/sol_anime/RldeArrGroupee.gif",
+    "roulade arriere repoussee vers l atr":"https://bernard-lefort-eps.fr/gym/sol_anime/Raratr.gif",
+    "roulade arriere tendue":"https://bernard-lefort-eps.fr/gym/sol_anime/RARTendue.gif",
+    "changement de face, roulade arriere groupee":"https://bernard-lefort-eps.fr/gym/sol_anime/ChgtFaceRldeAr.GIF",
+    "roulade arriere depart appui dorsal":"https://bernard-lefort-eps.fr/gym/sol_anime/RAR2a.gif",
+    "atr passager":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRpassage.GIF",
+    "atr fente":"https://bernard-lefort-eps.fr/gym/sol_anime/ATR%20fente.gif",
+    "trepied":"https://bernard-lefort-eps.fr/gym/sol_anime/Trepied.GIF",
+    "atr roulade avant":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRRldeAVT.GIF",
+    "atr roulade avant ecart":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRRldeAvtecart.GIF",
+    "planche ecart atr":"https://bernard-lefort-eps.fr/gym/sol_anime/PlancheecartATR.GIF",
+    "atr, 1/2 valse":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRDValse.GIF",
+    "1/2 valse roulade avant ecart":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRDValseRldeEcart.GIF",
+    "atr coupe ecart":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRcoupeecart.GIF",
+    "atr \"plombe\"":"https://bernard-lefort-eps.fr/gym/sol_anime/ATR_plombe.gif",
+    "atr en force":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRForce0.GIF",
+    "depart accroupi":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRForce0.GIF",
+    "atr en force depart a genoux":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRForce.GIF",
+    "atr en force depart a genoux, montee jambes tendues":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRForce2.GIF",
+    "atr en force, depart assit jambes ecarts":"https://bernard-lefort-eps.fr/gym/sol_anime/ATR-en-force-depart-assit-ecart.gif",
+    "atr en force 1/4 de valse":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRforce3.gif",
+    "appui dorsal, repousse a l atr":"https://bernard-lefort-eps.fr/gym/sol_anime/Appui-dorsal-Repousse-ATR.gif",
+    "healy quirl 1":"https://bernard-lefort-eps.fr/gym/sol_anime/healy-quirl-01.gif",
+    "healy quirl 2":"https://bernard-lefort-eps.fr/gym/sol_anime/healy-quirl-04.GIF",
+    "healy quirl 3":"https://bernard-lefort-eps.fr/gym/sol_anime/healy-quirl-03.gif",
+    "atr, planche ecart":"https://bernard-lefort-eps.fr/gym/sol_anime/ATR-PlancheEcart.gif",
+    "roue a deux bras":"https://bernard-lefort-eps.fr/gym/sol_anime/ROUEb.gif",
+    "roue sur 1 bras":"https://bernard-lefort-eps.fr/gym/sol_anime/roue1main.gif",
+    "roue, 1/4 de tour":"https://bernard-lefort-eps.fr/gym/sol_anime/rouequarttourint.GIF",
+    "roue sautee":"https://bernard-lefort-eps.fr/gym/sol_anime/Roue_sautee.gif",
+    "roue sans les mains":"https://bernard-lefort-eps.fr/gym/sol_anime/Roue-sans-les-mains.gif",
+    "roue arabe":"https://bernard-lefort-eps.fr/gym/sol_anime/roue-arabe.gif",
+    "preparation roue - rondade":"https://bernard-lefort-eps.fr/gym/sol_anime/impulsion_rdde.gif",
+    "rondade":"https://bernard-lefort-eps.fr/gym/sol_anime/Rondade.GIF",
+    "rondade saut carpe":"https://bernard-lefort-eps.fr/gym/sol_anime/RondadeCarpee.GIF",
+    "rondade flip":"https://bernard-lefort-eps.fr/gym/sol_anime/RondadeFlip.GIF",
+    "flip":"https://bernard-lefort-eps.fr/gym/sol_anime/flip_avant.gif",
+    "avant":"https://bernard-lefort-eps.fr/gym/sol_anime/flip_avant.gif",
+    "rondade, saut de l ange":"https://bernard-lefort-eps.fr/gym/sol_anime/RondadeStange.GIF",
+    "flip arriere":"https://bernard-lefort-eps.fr/gym/sol_anime/flipa.gif",
+    "chandelle":"https://bernard-lefort-eps.fr/gym/sol_anime/Chandelle.GIF",
+    "chandelle, ciseaux":"https://bernard-lefort-eps.fr/gym/sol_anime/Chandelle-ciseaux.gif",
+    "chandelle, roulade avant":"https://bernard-lefort-eps.fr/gym/sol_anime/ChandelleRldeAvt.GIF",
+    "chandelle, atr":"https://bernard-lefort-eps.fr/gym/sol_anime/ChandelleATR.GIF",
+    "saut de tete":"https://bernard-lefort-eps.fr/gym/sol_anime/Sttete.gif",
+    "bascule de nuque":"https://bernard-lefort-eps.fr/gym/sol_anime/bascule_de_nuque.gif",
+    "saut de main":"https://bernard-lefort-eps.fr/gym/sol_anime/stmaina.gif",
+    "salto avant groupe":"https://bernard-lefort-eps.fr/gym/sol_anime/Saltoavant.GIF",
+    "salto costal - side flip":"https://bernard-lefort-eps.fr/gym/sol_anime/Salto%20costal-Side%20Flip.gif",
+    "roue - salto costal":"https://bernard-lefort-eps.fr/gym/sol_anime/roue_salto_costal.gif",
+    "salto avant tendu":"https://bernard-lefort-eps.fr/gym/sol_anime/salto-avant-tendu.gif",
+    "coup de pied a la lune kick the moon":"https://bernard-lefort-eps.fr/gym/sol_anime/coup-pied-lune-kick-the-moon.gif",
+    "salto arriere depart tremplin":"https://bernard-lefort-eps.fr/gym/sol_anime/SaltoArriere.GIF",
+    "salto arriere groupe":"https://bernard-lefort-eps.fr/gym/sol_anime/Salto-arri%C3%A8re-2.gif",
+    "cercles thomas":"https://bernard-lefort-eps.fr/gym/sol_anime/thomasb.GIF",
+    "equerre groupee":"https://bernard-lefort-eps.fr/gym/sol_anime/equerre_groupee.gif",
+    "equerre ecart":"https://bernard-lefort-eps.fr/gym/sol_anime/equerre_ecart.gif",
+    "equerre tendue":"https://bernard-lefort-eps.fr/gym/sol_anime/equerre_tendue.gif",
+    "planche crocodile sur 2 bras":"https://bernard-lefort-eps.fr/gym/sol_anime/planche_croco_2bras.gif",
+    "planche crocodile sur 1 bras":"https://bernard-lefort-eps.fr/gym/sol_anime/planche_croco_1bras.gif",
+    "onde avant":"https://bernard-lefort-eps.fr/gym/sol_anime/OndeAvant.GIF",
+    "tour enveloppe":"https://bernard-lefort-eps.fr/gym/sol_anime/tourenv.gif",
+    "atr pont":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRPont.GIF",
+    "atr pont 1 jambe":"https://bernard-lefort-eps.fr/gym/sol_anime/ATR-Pont-1-jambe.gif",
+    "liaison appui dordal-debout":"https://bernard-lefort-eps.fr/gym/sol_anime/liaisonG2.gif",
+    "liaison changement de direction debout":"https://bernard-lefort-eps.fr/gym/sol_anime/liaison.gif",
+    "atr- liaison":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRliaison2.gif",
+    "saut - liaison":"https://bernard-lefort-eps.fr/gym/sol_anime/saut%20liaison.gif",
+    "liaison debout avec 1/2 tour vers le":"https://bernard-lefort-eps.fr/gym/sol_anime/liaisonG5.gif",
+    "debout - sol suedois":"https://bernard-lefort-eps.fr/gym/sol_anime/Debout_sol_suedois.gif",
+    "liaison fille en gym":"https://bernard-lefort-eps.fr/gym/sol_anime/liaisonfille2.GIF",
+};
+
+/* ═══════════════ STATE ═══════════════ */
+let currentStep=1,completedSteps=new Set();
+let profile={genre:null,fitness:3};
+let candidatData={};
+let elementsTechniques=[],elementIdCounter=0;
+let generatedSeq=[];
+
+/* ═══════════════ STEPPER ═══════════════ */
+function goToStep(n){
+    if(n>1&&!completedSteps.has(1))return;
+    if(n>2&&!completedSteps.has(2))return;
+    currentStep=n;
+    document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('step'+n).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    updateStepper();
+    if(n===3){
+        if(!document.getElementById('doc_tbody'))loadDocumentTemplate();
+        renderElementControls();
+        updateDocumentFilename();
+        const alerte=document.getElementById('alertTheorique');
+        if(alerte)alerte.style.display=window._seqIsGenerated?'flex':'none';
+    }
+}
+function updateStepper(){
+    document.querySelectorAll('.step-item').forEach(item=>{
+        const s=parseInt(item.dataset.step);
+        item.classList.remove('active','done','disabled');
+        if(s===currentStep)item.classList.add('active');
+        else if(completedSteps.has(s))item.classList.add('done');
+        else if(s>currentStep&&!completedSteps.has(s-1))item.classList.add('disabled');
+        const dot=item.querySelector('.step-dot');
+        if(completedSteps.has(s)&&s!==currentStep)dot.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>';
+        else dot.textContent=s;
+    });
+}
+
+function updateDocumentFilename() {
+    if(candidatData.nom) {
+        document.title = candidatData.nom.trim().replace(/\s+/g, '_') + "_Gym";
+    }
+}
+
+/* ═══════════════ STEP 1 ═══════════════ */
+function validateStep1(){
+    const nom=document.getElementById('s1_nom').value.trim();
+    if(!nom){alert('Veuillez saisir le nom du candidat.');document.getElementById('s1_nom').focus();return;}
+    candidatData={
+        nom,
+        etablissement:document.getElementById('s1_etablissement').value.trim()||'—',
+        centre:document.getElementById('s1_centre').value.trim()||'—',
+        type_examen:document.getElementById('s1_type_examen').value.trim()||'Baccalauréat',
+        serie:document.getElementById('s1_serie').value.trim()||'—',
+        session:document.getElementById('s1_session').value.trim()||new Date().getFullYear()
+    };
+    completedSteps.add(1);
+    goToStep(2);
+}
+
+/* ═══════════════ STEP 2 ═══════════════ */
+const fitnessLabels=['Flemmard 😴','Peu actif 🚶','Intermédiaire 🏃','Actif 💪','Athlète 🏆'];
+function updateFitnessLabel(){
+    const v=parseInt(document.getElementById('fitnessSlider').value);
+    profile.fitness=v;
+    document.getElementById('fitnessLabel').textContent=fitnessLabels[v-1];
+}
+function selectProfile(card){
+    const group=card.dataset.group;
+    document.querySelectorAll(`.profile-card[data-group="${group}"]`).forEach(c=>c.classList.remove('selected'));
+    card.classList.add('selected');
+    profile[group]=card.dataset.val;
+}
+
+const CAT_ORDER=['A','B','C','D','E'];
+function catVal(c){return CAT_ORDER.indexOf(c);}
+function maxCatIdx(f){return [1,2,2,3,4][f-1];}
+
+function generateSequence(){
+    if(!profile.genre){alert('Veuillez sélectionner le genre du candidat.');return;}
+    profile.fitness=parseInt(document.getElementById('fitnessSlider').value);
+    const maxIdx=maxCatIdx(profile.fitness);
+    let pool=GYM_DB.elements.filter(e=>{
+        if(e.genre==='fille'&&profile.genre!=='fille')return false;
+        return catVal(e.cat)<=maxIdx;
+    });
+
+    const TARGET_MIN=15.5,TARGET_MAX=16;
+    let best=null;
+    for(let attempt=0;attempt<600;attempt++){
+        pool.sort(()=>Math.random()-0.5);
+        let seq=[],total=0;
+        const used=new Set();
+        for(const el of pool){
+            if(used.has(el.nom))continue;
+            const pts=parseFloat(el.pts);
+            if(total+pts<=TARGET_MAX+0.01){
+                const lastCat=seq.length>0?seq[seq.length-1].cat:null;
+                if(lastCat&&lastCat===el.cat)continue;
+                seq.push(el);used.add(el.nom);total+=pts;
+                if(total>=TARGET_MIN&&seq.length>=5)break;
+            }
+        }
+        if(total>=TARGET_MIN&&total<=TARGET_MAX+0.01&&seq.length>=5){best={seq,total};break;}
+        if(!best||Math.abs(total-15.75)<Math.abs(best.total-15.75))best={seq,total};
+    }
+    generatedSeq=best.seq;
+    renderSeqPreview(best.seq,best.total);
+    completedSteps.add(2);
+    updateStepper();
+}
+
+function renderSeqPreview(seq,total){
+    document.getElementById('seqPreviewBox').style.display='block';
+    document.getElementById('seqTotalBadge').textContent=total.toFixed(1)+' pts';
+    document.getElementById('seqPreviewList').innerHTML=seq.map(el=>
+        `<li><span class="seq-cat">${el.cat}</span><span>${el.nom}</span><span class="seq-pts">${el.pts} pt(s)</span></li>`
+    ).join('');
+}
+
+function acceptSequence(){
+    if(!generatedSeq.length)return;
+    elementsTechniques=[];elementIdCounter=0;
+    generatedSeq.forEach(el=>{
+        elementIdCounter++;
+        elementsTechniques.push({id:elementIdCounter,nom:el.nom,categorie:el.cat,points:el.pts});
+    });
+    completedSteps.add(2);
+    window._seqIsGenerated=true;
+    goToStep(3);
+}
+
+/* ═══════════════ STEP 3 — DOCUMENT ═══════════════ */
+function normalizeStr(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();}
+
+function loadDocumentTemplate(){
+    document.getElementById('gs_document-preview').innerHTML=`<div class="gs-template2-styles">
+        <div class="document-header">
+            <div class="title-main" id="doc_title">PROJET INDIVIDUEL DE GYMNASTIQUE</div>
+            <div class="header-info">
+                <div class="info-left">
+                    <p><strong>CENTRE :</strong> <span id="doc_centre"></span></p>
+                    <p><strong>IDENTITE DU CANDIDAT :</strong> <span id="doc_nom"></span></p>
+                    <p><strong>ETABLISSEMENT :</strong> <span id="doc_etab"></span></p>
+                </div>
+                <div class="info-right">
+                    <p style="height:1.25em;visibility:hidden;">&nbsp;</p>
+                    <p><strong>SERIE :</strong> <span id="doc_serie"></span></p>
+                    <p><strong>EXAMEN :</strong> <span id="doc_examen"></span></p>
+                </div>
+            </div>
+            <div class="session-info">Session <span id="doc_session"></span></div>
+        </div>
+        <div class="main-table-wrap">
+        <table>
+            <colgroup><col style="width:65%"><col style="width:9.75%"><col style="width:5.25%"><col style="width:10%"><col style="width:7%"><col style="width:3%"></colgroup>
+            <thead><tr>
+                <th>ELEMENTS TECHNIQUES<br>(+ELEMENTS DE LIAISON)</th>
+                <th colspan="2">CATEGORIES D'ELEMENTS<br>TECHNIQUES ET PONDERATION</th>
+                <th>APPRECIATIONS</th>
+                <th colspan="2">POINTS<br>Accordés</th>
+            </tr></thead>
+            <tbody id="doc_tbody"></tbody>
+        </table>
+        </div>
+        <div class="bottom-section">
+        <p class="nb-text"><strong>NB1 :</strong> zone réservée aux membres du jury ! Le jury cochera le point correspondant au niveau de réalisation de l'élément gymnique par le candidat.</p>
+        <table>
+            <colgroup><col style="width:7%"><col style="width:7%"><col style="width:7%"><col style="width:7%"><col style="width:7%"><col style="width:7%"><col style="width:7%"><col style="width:7%"><col style="width:7%"><col style="width:7%"><col style="width:10%"><col style="width:10%"><col style="width:10%"></colgroup>
+            <thead>
+                <tr><th colspan="2">Type A<br>1pt</th><th colspan="2">Type B<br>1,5pt</th><th colspan="2">Type C<br>2pts</th><th colspan="2">Type D<br>2,5pts</th><th colspan="2">Type E<br>3pts</th><th>ROV<br>2pts</th><th>Projet<br>2pts</th><th>Réalisation<br>16pts</th></tr>
+                <tr><th>NEG</th><th>Note</th><th>NEG</th><th>Note</th><th>NEG</th><th>Note</th><th>NEG</th><th>Note</th><th>NEG</th><th>Note</th><th>Note</th><th>Note</th><th>Note</th></tr>
+            </thead>
+            <tbody><tr>${Array(13).fill('<td class="input-cell-summary">&nbsp;</td>').join('')}</tr></tbody>
+        </table>
+        <div class="signatures">
+            <p><strong>Correcteur Projet :</strong> .....................................................................................</p>
+            <p><strong>Correcteur principal :</strong> ....................................................................................</p>
+            <p><strong>Correcteur ROV :</strong> ........................................................................................</p>
+        </div>
+        <div class="final-grade-wrapper">
+            <div class="score-display-area">
+                <p class="final-score-label"><strong>Note finale/20</strong></p>
+                <div class="final-score-value-box"></div>
+            </div>
+        </div>
+        <p style="margin-top:3px;font-style:italic;color:#444;border:1px solid #689f38;padding:4px 6px;display:block;width:97%;margin-left:auto;margin-right:auto;white-space:normal;word-break:break-word;"><strong>NB2 :</strong> Après le choix des catégories d'éléments gymniques par le candidat, ce dernier remplira la colonne de pointage selon l'orientation suivante : A (0.25 ; 0.5 ; 0.75 ; 1) B (0.25 ; 0.5 ; 0.75 ; 1 ; 1.25 ; 1.5) C (0.5 ; 0.75 ; 1 ; 1.25 ; 1.5 ; 2) D (0.75 ; 1 ; 1.25 ; 1.5 ; 2 ; 2.5) et E (0.75 ; 1 ; 1.5 ; 2 ; 2.5 ; 3) aussi, il sera exigé au candidat 2 copies de son projet sur une page ! <strong>appréciations</strong> : NR (non réalisation) NM (non maîtrisé), <strong>PM</strong> (peu maîtrisé) et <strong>M</strong> (maîtrisé).</p>
+        </div>
+    </div>`;
+    updatePreview();
+}
+
+function updatePreview(){
+    const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+    set('doc_centre',candidatData.centre||'—');
+    set('doc_nom',candidatData.nom||'—');
+    set('doc_etab',candidatData.etablissement||'—');
+    set('doc_serie',candidatData.serie||'—');
+    set('doc_examen',candidatData.type_examen||'—');
+    set('doc_session',candidatData.session||'—');
+    
+    set('doc_title', 'PROJET INDIVIDUEL DE GYMNASTIQUE');
+
+    const tbody=document.getElementById('doc_tbody');
+    if(!tbody)return;
+    tbody.innerHTML='';
+    const g=()=>`<td class="points-value"><div>&nbsp;</div><div>&nbsp;</div></td><td class="points-value-empty"><div>&nbsp;</div><div>&nbsp;</div></td>`;
+    elementsTechniques.forEach(el=>{
+        ['M','PM','NM','NR'].forEach((appr,i)=>{
+            const tr=document.createElement('tr');
+            if(i===0)tr.innerHTML=`<td rowspan="4" class="pre-wrap-content">${el.nom||''}</td><td rowspan="4" class="category-data">${el.categorie||''}</td><td rowspan="4" class="points-data">${el.points||''}</td>`;
+            tr.innerHTML+=`<td class="bold center-text">${appr}</td>${g()}`;
+            tbody.appendChild(tr);
+        });
+    });
+    updateTotalBadge();
+    const preview = document.getElementById('gs_document-preview');
+    if (preview) {
+        if (elementsTechniques.length > 8) {
+            preview.classList.add('compact');
+        } else {
+            preview.classList.remove('compact');
+        }
+    }
+}
+
+function updateTotalBadge(){
+    const total=elementsTechniques.reduce((s,el)=>s+(parseFloat(el.points)||0),0);
+    const b=document.getElementById('gs_total_badge');
+    if(b)b.textContent=`Total : ${total.toFixed(1)} / 16 pts`;
+}
+
+/* ═══════════════ ELEMENT CONTROLS ═══════════════ */
+function renderElementControls(){
+    const container=document.getElementById('gs_elements-controls-container');
+    if(!container)return;
+    container.innerHTML='';
+    elementsTechniques.forEach((el,idx)=>{
+        const total=elementsTechniques.length;
+        const div=document.createElement('div');
+        div.className='element-edit-row';
+        div.setAttribute('data-id',el.id);
+        div.innerHTML=`
+            <div class="el-row-top">
+                <span class="el-num">${idx+1}</span>
+                <div class="autocomplete-wrapper">
+                    <span class="section-label">Nom</span>
+                    <input type="text" id="el_nom_${el.id}" data-id="${el.id}" data-field="nom"
+                        value="${el.nom}" placeholder="Ex: Roulade avant + fente"
+                        class="field-input ctrl-el" autocomplete="off">
+                    <ul id="ac_list_${el.id}" class="autocomplete-dropdown"></ul>
+                </div>
+                <button class="btn-danger-ghost remove-el-btn" data-id="${el.id}" title="Supprimer" style="margin-top:22px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+                </button>
+            </div>
+            <div class="el-row-bottom">
+                <div class="col-cat">
+                    <span class="section-label">Cat.</span>
+                    <select id="el_cat_${el.id}" data-id="${el.id}" data-field="categorie" class="field-input ctrl-el">
+                        <option value="" ${el.categorie===''?'selected':''}>—</option>
+                        ${['A','B','C','D','E'].map(c=>`<option value="${c}" ${el.categorie===c?'selected':''}>${c}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="col-pts">
+                    <span class="section-label">Pts</span>
+                    <input type="text" id="el_pts_${el.id}" data-id="${el.id}" data-field="points"
+                        value="${el.points}" class="field-input ctrl-el">
+                </div>
+                <div class="row-actions">
+                    <button class="gif-btn" title="Aperçu" onclick="showGifPreview(event,${el.id})">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    </button>
+                    <button class="btn-order move-up-btn" data-id="${el.id}" title="Monter" ${idx===0?'disabled':''}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+                    </button>
+                    <button class="btn-order move-down-btn" data-id="${el.id}" title="Descendre" ${idx===total-1?'disabled':''}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                </div>
+            </div>`;
+        container.appendChild(div);
+        attachAutocomplete(div.querySelector(`#el_nom_${el.id}`),el.id);
+    });
+    container.querySelectorAll('.ctrl-el').forEach(inp=>inp.addEventListener('input',onElementInput));
+    container.querySelectorAll('.remove-el-btn').forEach(btn=>btn.addEventListener('click',onRemoveElement));
+    container.querySelectorAll('.move-up-btn').forEach(btn=>btn.addEventListener('click',e=>{
+        const id=parseInt(e.currentTarget.dataset.id);
+        const i=elementsTechniques.findIndex(x=>x.id===id);
+        if(i>0){[elementsTechniques[i-1],elementsTechniques[i]]=[elementsTechniques[i],elementsTechniques[i-1]];renderElementControls();}
+    }));
+    container.querySelectorAll('.move-down-btn').forEach(btn=>btn.addEventListener('click',e=>{
+        const id=parseInt(e.currentTarget.dataset.id);
+        const i=elementsTechniques.findIndex(x=>x.id===id);
+        if(i<elementsTechniques.length-1){[elementsTechniques[i],elementsTechniques[i+1]]=[elementsTechniques[i+1],elementsTechniques[i]];renderElementControls();}
+    }));
+    updatePreview();
+}
+
+function onElementInput(ev){
+    const id=parseInt(ev.target.dataset.id),f=ev.target.dataset.field,v=ev.target.value;
+    const el=elementsTechniques.find(e=>e.id===id);
+    if(el)el[f]=v;
+    updatePreview();
+}
+function onRemoveElement(ev){
+    const id=parseInt(ev.currentTarget.dataset.id);
+    elementsTechniques=elementsTechniques.filter(e=>e.id!==id);
+    renderElementControls();
+}
+
+document.getElementById('gs_add-element-btn').addEventListener('click',()=>{
+    elementIdCounter++;
+    elementsTechniques.push({id:elementIdCounter,nom:'',categorie:'',points:''});
+    if(!document.getElementById('doc_tbody'))loadDocumentTemplate();
+    renderElementControls();
+});
+
+/* ═══════════════ AUTOCOMPLETE ═══════════════ */
+function attachAutocomplete(input,id){
+    const list=document.getElementById(`ac_list_${id}`);
+    input.addEventListener('input',function(){
+        const parts=this.value.split('+');
+        const cur=parts[parts.length-1].trim();
+        list.innerHTML='';
+        if(!cur){list.classList.remove('active');return;}
+        const q=normalizeStr(cur);
+        let matches=[];
+        GYM_DB.elements.forEach(e=>{
+            if(e.genre==='fille'&&profile.genre!=='fille')return;
+            if(normalizeStr(e.nom).includes(q))matches.push({type:'element',data:e});
+        });
+        GYM_DB.liaisons.forEach(l=>{if(normalizeStr(l).includes(q))matches.push({type:'liaison',data:l});});
+        if(!matches.length){list.classList.remove('active');return;}
+        matches.slice(0,12).forEach(m=>{
+            const li=document.createElement('li');
+            li.className='autocomplete-item';
+            li.innerHTML=m.type==='element'
+                ?`<span>${m.data.nom}</span><span class="item-meta element">${m.data.cat} — ${m.data.pts}pt</span>`
+                :`<span>${m.data}</span><span class="item-meta liaison">Liaison</span>`;
+            li.addEventListener('mousedown',e=>{
+                e.preventDefault();
+                const arr=input.value.split('+');
+                arr[arr.length-1]=' '+(m.type==='element'?m.data.nom:m.data)+' ';
+                input.value=arr.join('+').replace(/\s*\+\s*/g,' + ').trim();
+                const elObj=elementsTechniques.find(x=>x.id===id);
+                if(elObj){
+                    elObj.nom=input.value;
+                    if(m.type==='element'){
+                        elObj.categorie=m.data.cat;elObj.points=m.data.pts;
+                        const ce=document.getElementById(`el_cat_${id}`);
+                        const pe=document.getElementById(`el_pts_${id}`);
+                        if(ce)ce.value=m.data.cat;if(pe)pe.value=m.data.pts;
+                    }
+                }
+                list.classList.remove('active');updatePreview();
+            });
+            list.appendChild(li);
+        });
+        list.classList.add('active');
+    });
+    input.addEventListener('blur',()=>setTimeout(()=>list.classList.remove('active'),150));
+    input.addEventListener('focus',()=>{if(list.childElementCount>0)list.classList.add('active');});
+}
+
+/* ═══════════════ MODE CHOICE ═══════════════ */
+function handleModeChoice(mode){
+    if(!profile.genre){alert('Veuillez d\'abord sélectionner le genre du candidat.');return;}
+    profile.fitness=parseInt(document.getElementById('fitnessSlider').value);
+    if(mode==='generate'){
+        generateSequence();
+    } else {
+        elementsTechniques=[];elementIdCounter=0;
+        completedSteps.add(2);
+        document.getElementById('alertTheorique').style.display='none';
+        goToStep(3);
+    }
+}
+
+/* ═══════════════ EXPORT PDF ═══════════════ */
+async function exportPDF(){
+    const btn=document.getElementById('btn-finish-pdf');
+    btn.textContent='⏳ Génération en cours…';
+    btn.disabled=true;
+    try {
+        const preview=document.getElementById('gs_document-preview');
+        if(!window.html2canvas){
+            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+        }
+        if(!window.jspdf){
+            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+        }
+        const canvas=await html2canvas(preview,{scale:2,useCORS:true,backgroundColor:'#ffffff'});
+        const imgData=canvas.toDataURL('image/jpeg',0.95);
+        const {jsPDF}=window.jspdf;
+        const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+        const pageW=pdf.internal.pageSize.getWidth();
+        const pageH=pdf.internal.pageSize.getHeight();
+        const imgW=pageW;
+        const imgH=(canvas.height*imgW)/canvas.width;
+        let y=0;
+        if(imgH<=pageH){
+            pdf.addImage(imgData,'JPEG',0,0,imgW,imgH);
+        } else {
+            let remaining=imgH;
+            while(remaining>0){
+                pdf.addImage(imgData,'JPEG',0,-y,imgW,imgH);
+                remaining-=pageH;y+=pageH;
+                if(remaining>0)pdf.addPage();
+            }
+        }
+        const filename=(candidatData.nom||'enchaînement').trim().replace(/\s+/g,'_')+'_gym.pdf';
+        pdf.save(filename);
+    } catch(err){
+        console.error(err);
+        alert('Erreur lors de la génération du PDF. Essaie d\'imprimer la page avec Ctrl+P.');
+    }
+    btn.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> J\'ai fini !';
+    btn.disabled=false;
+}
+function loadScript(src){
+    return new Promise((res,rej)=>{
+        const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);
+    });
+}
+
+/* ═══════════════ GIF POPOVER ═══════════════ */
+function showGifPreview(event,id){
+    event.stopPropagation();
+    const el=elementsTechniques.find(e=>e.id===id);
+    if(!el)return;
+    const popover=document.getElementById('gifPopover');
+    document.getElementById('gifPopoverTitle').textContent=el.nom||'Élément';
+    const key=normalizeStr(el.nom||'');
+    
+    const gifEntry=GIF_MAP[key]
+        ? [key, GIF_MAP[key]]
+        : Object.entries(GIF_MAP).find(([k])=>key===k||key.includes(k)||k.includes(key.substring(0,10)));
+        
+    document.getElementById('gifPopoverContent').innerHTML=gifEntry
+        ?`<img src="${gifEntry[1]}" alt="${el.nom}" loading="lazy">`
+        :`<div class="gif-placeholder">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Création de la prévisualisation<br>en cours…</span>
+          </div>`;
+          
+    const btn=event.currentTarget;
+    const rect=btn.getBoundingClientRect();
+    const pw=280;
+    
+    let left = rect.left - (pw - rect.width) / 2;
+    let top = rect.bottom + 8;
+    
+    if(left < 8) left = 8;
+    if(left + pw > window.innerWidth - 8) left = window.innerWidth - pw - 8;
+    if(top + 280 > window.innerHeight) top = rect.top - 280 - 8;
+    
+    popover.style.left=`${Math.max(8,left)}px`;
+    popover.style.top=`${Math.max(8,top)}px`;
+    popover.classList.add('active');
+}
+
+function closeGifPopover(){document.getElementById('gifPopover').classList.remove('active');}
+document.addEventListener('click',e=>{
+    if(!e.target.closest('.gif-btn')&&!e.target.closest('.gif-popover'))closeGifPopover();
+});
+
+/* ═══════════════ INIT ═══════════════ */
+updateFitnessLabel();
+updateStepper();
+</script>
 </body>
 </html>
