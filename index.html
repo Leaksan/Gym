@@ -20,7 +20,7 @@
         *{margin:0;padding:0;box-sizing:border-box;}
         body{font-family:'Inter',sans-serif;background:var(--gray-100);color:var(--gray-700);min-height:100vh;-webkit-font-smoothing:antialiased;}
 
-        /* HEADER & STEPPER */
+        /* HEADER & STEPPER (Mobile First) */
         .app-header{background:var(--white);border-bottom:1px solid var(--gray-200);padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
         .logo{display:flex;align-items:center;gap:6px;font-weight:700;font-size:0.9rem;color:var(--blue);text-decoration:none; white-space:nowrap;}
         .logo svg{width:18px;height:18px;}
@@ -147,8 +147,6 @@
         .btn-add-dashed{width:100%;padding:14px;border:2px dashed var(--gray-300);border-radius:var(--radius);background:transparent;color:var(--gray-500);font-family:'Inter',sans-serif;font-size:0.9375rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.15s;margin-top:10px;}
         .btn-add-dashed:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-pale);}
 
-        .step3-header-actions { display:flex; flex-direction:column; gap:12px; margin-bottom:20px; }
-
         /* AUTOCOMPLETE */
         .autocomplete-wrapper{position:relative;width:100%;}
         .autocomplete-dropdown{position:absolute;top:100%;left:0;right:0;background:var(--white);border:1px solid var(--gray-300);border-radius:var(--radius-sm);box-shadow:var(--shadow);margin-top:3px;max-height:220px;overflow-y:auto;z-index:60;list-style:none;display:none;}
@@ -167,16 +165,18 @@
         .gif-popover-close{position:absolute;top:10px;right:10px;background:var(--gray-100);border:none;cursor:pointer;color:var(--gray-500);padding:4px;border-radius:50%;line-height:1; display:flex;}
         .gif-placeholder{width:100%;height:150px;background:var(--gray-100);border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gray-400);font-size:0.75rem;gap:7px;text-align:center;line-height:1.4;}
 
-        /* DOCUMENT PREVIEW - Styles fusionnés améliorés */
+        /* DOCUMENT PREVIEW */
         .gs-body-styles{font-family:"Times New Roman",Times,serif;color:#333; width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--gray-200); border-radius:var(--radius-sm); padding-bottom:10px;}
         #gymSheetSection .gs-page-container{width:21cm;min-height:29.7cm;height:auto;background:white;box-sizing:border-box;display:flex;flex-direction:column;overflow:visible;}
         #gymSheetSection .gs-template2-styles{font-size:6.8pt;padding:6mm 7mm;box-sizing:border-box;width:100%;flex-grow:1;line-height:1.12;position:relative;display:flex;flex-direction:column;overflow:visible !important;}
+        
         #gymSheetSection .gs-template2-styles .document-header{border:1px solid #689f38;padding:1px;margin-bottom:4px;width:97%;margin-left:auto;margin-right:auto;}
         #gymSheetSection .gs-template2-styles .title-main{text-align:center;font-weight:bold;font-size:10.5pt;color:#333;margin-bottom:0.5px;text-transform:uppercase;}
         #gymSheetSection .gs-template2-styles .header-info{display:flex;justify-content:space-between;margin-bottom:0.5px;font-size:9pt;width:97%;margin-left:auto;margin-right:auto;}
         #gymSheetSection .gs-template2-styles .header-info .info-left{padding-left:30px;box-sizing:border-box;flex-basis:55%;}
         #gymSheetSection .gs-template2-styles .header-info .info-right{padding-left:10px;box-sizing:border-box;flex-basis:45%;text-align:left;}
         #gymSheetSection .gs-template2-styles .session-info{text-align:center;font-weight:bold;font-size:9.5pt;margin-top:0.5px;}
+        
         #gymSheetSection .gs-template2-styles table{border-collapse:collapse;position:relative;}
         #gymSheetSection .gs-template2-styles table:first-of-type{width:100%!important;margin:3px 0 0 0!important;}
         #gymSheetSection .gs-template2-styles th, #gymSheetSection .gs-template2-styles td{border:1px solid #888;padding:1px 2px;text-align:left;vertical-align:top;font-size:6.8pt;line-height:1.1;font-weight:bold;}
@@ -188,27 +188,35 @@
         #gymSheetSection .gs-template2-styles .points-value div{min-height:1.8px;}
         #gymSheetSection .gs-template2-styles td[rowspan].pre-wrap-content{text-align:center;vertical-align:middle;font-size:12pt;}
         #gymSheetSection .gs-template2-styles p{margin-top:0;margin-bottom:0.06em;}
+        #gymSheetSection .gs-template2-styles .main-table-wrap{flex:1;overflow:visible;}
+        #gymSheetSection .gs-template2-styles .bottom-section{margin-top:4px;}
 
-        /* Nouveaux styles pour le bas de page (fusionnés) */
-        #gymSheetSection .gs-template2-styles .nb-text:first-of-type{margin-top:3px;margin-bottom:2px;font-size:10pt; line-height:1.3;}
-        #gymSheetSection .gs-template2-styles .jury-table{width:97%!important;margin:0 auto!important;}
-        #gymSheetSection .gs-template2-styles .jury-table th,
-        #gymSheetSection .gs-template2-styles .jury-table td {font-size: 8.8pt; padding: 3px 3px;}
-        #gymSheetSection .gs-template2-styles .jury-table .input-cell-summary{height:12px;padding:0;line-height:1;text-align:center;}
+        /* NOUVEAU DESIGN DE LA SECTION BASSE (V6 Final Adapté) */
+        #gymSheetSection .gs-template2-styles .header-note {margin: 2px 0 0 0; /* Haut: 6px, Bas: 4px */
+    font-size: 9pt; 
+    font-weight:normal; 
+}
+        #gymSheetSection .gs-template2-styles table.main-table { width: 100%; border-collapse: collapse; table-layout: fixed; margin:0 auto!important; }
+        #gymSheetSection .gs-template2-styles table.main-table th, 
+        #gymSheetSection .gs-template2-styles table.main-table td { border: 1px solid #888; text-align: center; padding: 2px; word-wrap: break-word; overflow-wrap: break-word; }
+        #gymSheetSection .gs-template2-styles .main-header { font-weight: bold; font-size: 8.5pt; }
+        #gymSheetSection .gs-template2-styles .sub-header { font-size: 7.5pt; font-style: italic; font-weight: normal; }
+        #gymSheetSection .gs-template2-styles .neg-note-header { font-size: 8pt; font-style: italic; font-weight: normal; }
+        #gymSheetSection .gs-template2-styles .row-empty td { height: 35px; padding:0; }
         
-        /* Disposition bas de page */
-        #gymSheetSection .gs-template2-styles .bottom-layout{display:flex;width:97%;margin:15px auto 0 auto;}
-        #gymSheetSection .gs-template2-styles .correctors-col{width:65%; padding-top:20px; font-weight:bold;}
-        #gymSheetSection .gs-template2-styles .correctors-col div{margin-bottom:12px; font-size:12pt;}
-        #gymSheetSection .gs-template2-styles .note-col{width:35%; display:flex; flex-direction:column; align-items:center;}
-        #gymSheetSection .gs-template2-styles .brace-svg{width:100%; height:35px; margin-top:-1px;}
-        #gymSheetSection .gs-template2-styles .final-score-area{display:flex; align-items:center; justify-content:center; width:100%; margin-top:5px; margin-right:50%;}
-        #gymSheetSection .gs-template2-styles .note-final-label{font-weight:bold; font-size:14pt; margin-right:10px; white-space:nowrap;}
-        #gymSheetSection .gs-template2-styles .note-final-box{width:80px; height:70px; border:2px solid #7cb342; flex-shrink:0; background:white;}
-        #gymSheetSection .gs-template2-styles .footer-box{border:2px solid #7cb342; padding:10px; margin-top:20px; font-style:italic; font-size:11pt; line-height:1.5; text-align:justify; width:97%; margin-left:auto; margin-right:auto;}
-        #gymSheetSection .gs-template2-styles .footer-box b{font-style:normal; font-weight:bold;}
+        #gymSheetSection .gs-template2-styles .bottom-layout { display: flex; width: 100%; margin-top: 10px; }
+        #gymSheetSection .gs-template2-styles .correctors-col { width: 65%; padding-top: 15px; font-weight: bold; font-size: 10.5pt; }
+        #gymSheetSection .gs-template2-styles .correctors-col div { margin-bottom: 8px; text-align: left; padding-left: 20px; }
+        #gymSheetSection .gs-template2-styles .note-col { width: 35%; display: flex; flex-direction: column; align-items: center; }
+        #gymSheetSection .gs-template2-styles .brace-svg { width: 100%; height: 25px; margin-top: -1px; }
+        #gymSheetSection .gs-template2-styles .final-score-area { display: flex; align-items: center; justify-content: center; width: 100%; margin-top: 5px; margin-right: 50%; }
+        #gymSheetSection .gs-template2-styles .note-final-label { font-weight: bold; font-size: 13pt; margin-right: 15px; white-space: nowrap; }
+        #gymSheetSection .gs-template2-styles .note-final-box { width: 80px; height: 60px; border: 2px solid #689f38; flex-shrink: 0; background: white; }
+        
+        #gymSheetSection .gs-template2-styles .footer-box { border: 1.5px solid #689f38; padding: 6px 8px; margin-top: 15px; font-style: italic; font-size: 9.5pt; line-height: 1.4; text-align: justify; width: 97%; margin-left: auto; margin-right: auto; }
+        #gymSheetSection .gs-template2-styles .footer-box b { font-style: normal; font-weight: bold; }
 
-        /* Mode compact */
+        /* MODE COMPACT (pour les enchaînements longs) */
         #gs_document-preview.compact .gs-template2-styles { font-size: 6.2pt; }
         #gs_document-preview.compact .gs-template2-styles .document-header { margin-bottom: 2px; }
         #gs_document-preview.compact .gs-template2-styles .title-main { font-size: 9pt; }
@@ -221,13 +229,25 @@
         #gs_document-preview.compact .gs-template2-styles td.points-data { font-size: 9pt; }
         #gs_document-preview.compact .gs-template2-styles td.bold.center-text { font-size: 5.5pt; }
         #gs_document-preview.compact .gs-template2-styles td[rowspan].pre-wrap-content { font-size: 9pt; padding: 1px; }
-        #gs_document-preview.compact .gs-template2-styles .nb-text:first-of-type { margin-top: 1px; margin-bottom: 1px; font-size: 8pt; }
-        #gs_document-preview.compact .gs-template2-styles .jury-table th,
-        #gs_document-preview.compact .gs-template2-styles .jury-table td { font-size: 7.5pt; padding: 2px 2px; }
-        #gs_document-preview.compact .gs-template2-styles .correctors-col div { font-size: 10pt; margin-bottom: 8px; }
-        #gs_document-preview.compact .gs-template2-styles .note-final-label { font-size: 11pt; }
-        #gs_document-preview.compact .gs-template2-styles .note-final-box { width: 65px; height: 55px; }
-        #gs_document-preview.compact .gs-template2-styles .footer-box { padding: 6px; font-size: 9pt; }
+        
+        #gs_document-preview.compact .gs-template2-styles .header-note { margin: 0; font-size: 8pt; }
+        #gs_document-preview.compact .gs-template2-styles .main-header { font-size: 7.5pt; }
+        #gs_document-preview.compact .gs-template2-styles .sub-header { font-size: 6.5pt; }
+        #gs_document-preview.compact .gs-template2-styles .neg-note-header { font-size: 7pt; }
+        #gs_document-preview.compact .gs-template2-styles .row-empty td { height: 18px; }
+        #gs_document-preview.compact .gs-template2-styles .bottom-layout { margin-top: 5px; }
+        #gs_document-preview.compact .gs-template2-styles .correctors-col { padding-top: 5px; font-size: 9pt; }
+        #gs_document-preview.compact .gs-template2-styles .correctors-col div { margin-bottom: 4px; }
+        #gs_document-preview.compact .gs-template2-styles .brace-svg { height: 15px; }
+        #gs_document-preview.compact .gs-template2-styles .note-final-label { font-size: 11pt; margin-right: 10px; }
+        #gs_document-preview.compact .gs-template2-styles .note-final-box { height: 45px; width: 65px; }
+        #gs_document-preview.compact .gs-template2-styles .footer-box { margin-top: 8px; padding: 4px 6px; font-size: 8.5pt; }
+
+        /* MODE MAX-ELEMENTS (pour exactement 11 éléments, grattage de marge) */
+        #gs_document-preview.max-elements .gs-template2-styles { padding-top: 4mm !important; padding-bottom: 4mm !important; }
+        #gs_document-preview.max-elements .gs-template2-styles .bottom-layout { margin-top: 2px !important; }
+        #gs_document-preview.max-elements .gs-template2-styles .footer-box { margin-top: 4px !important; padding: 4px 6px !important; }
+        #gs_document-preview.max-elements .gs-template2-styles .row-empty td { height: 14px !important; }
 
         /* MEDIA QUERIES */
         @media(min-width: 560px) {
@@ -238,7 +258,6 @@
             .btn-actions{flex-direction:row;justify-content:flex-end;}
             .btn{width:auto;}
             .seq-actions{flex-direction:row;}
-            .step3-header-actions { flex-direction:row; justify-content:space-between; align-items:center; }
             .card{padding:24px;}
         }
         @media(min-width: 768px) {
@@ -247,6 +266,7 @@
 
         /* PRINT */
         @media print {
+            .app-header { display: none !important; }
             body * { visibility: hidden; }
             #gs_document-preview, #gs_document-preview * { visibility: visible; }
             @page { size: A4 portrait; margin: 10mm; }
@@ -264,7 +284,7 @@
             #gymSheetSection .gs-template2-styles td.bold.center-text { font-size: 6.5pt !important; height: 12px !important; }
             #gymSheetSection .gs-template2-styles .points-value div, 
             #gymSheetSection .gs-template2-styles .points-value-empty div { min-height: 6px !important; height: 6px !important; }
-            #gymSheetSection .gs-template2-styles .jury-table,
+            #gymSheetSection .gs-template2-styles table.main-table,
             #gymSheetSection .gs-template2-styles .bottom-layout,
             #gymSheetSection .gs-template2-styles .footer-box {
                 page-break-inside: avoid !important; break-inside: avoid !important;
@@ -382,7 +402,6 @@
                 </div>
             </div>
 
-            <!-- Choix du mode -->
             <div id="modeChoiceBox">
                 <div class="profile-section-title" style="margin-top:4px;">Comment veux-tu créer l'enchaînement ?</div>
                 <div class="mode-cards">
@@ -514,7 +533,6 @@ const GYM_DB={
     ]
 };
 
-// GIF map
 const GIF_MAP={
     "prise d elan":"https://bernard-lefort-eps.fr/gym/sol_anime/elanani.gif",
     "saut groupe":"https://bernard-lefort-eps.fr/gym/sol_anime/SautGroupe.GIF",
@@ -653,13 +671,15 @@ function updateStepper(){
 }
 
 function updateDocumentFilename() {
-    if(candidatData.nom) document.title = candidatData.nom.trim().replace(/\s+/g, '_') + "_Gym";
+    if(candidatData.nom) {
+        document.title = candidatData.nom.trim().replace(/\s+/g, '_') + "_Gym";
+    }
 }
 
 /* ═══════════════ STEP 1 ═══════════════ */
 function validateStep1(){
     const nom=document.getElementById('s1_nom').value.trim();
-    if(!nom){alert('Veuillez saisir le nom du candidat.');return;}
+    if(!nom){alert('Veuillez saisir le nom du candidat.');document.getElementById('s1_nom').focus();return;}
     candidatData={
         nom,
         etablissement:document.getElementById('s1_etablissement').value.trim()||'—',
@@ -691,13 +711,14 @@ function catVal(c){return CAT_ORDER.indexOf(c);}
 function maxCatIdx(f){return [1,2,2,3,4][f-1];}
 
 function generateSequence(){
-    if(!profile.genre){alert('Veuillez sélectionner le genre.');return;}
+    if(!profile.genre){alert('Veuillez sélectionner le genre du candidat.');return;}
     profile.fitness=parseInt(document.getElementById('fitnessSlider').value);
     const maxIdx=maxCatIdx(profile.fitness);
     let pool=GYM_DB.elements.filter(e=>{
         if(e.genre==='fille'&&profile.genre!=='fille')return false;
         return catVal(e.cat)<=maxIdx;
     });
+
     const TARGET_MIN=15.5,TARGET_MAX=16;
     let best=null;
     for(let attempt=0;attempt<600;attempt++){
@@ -708,6 +729,7 @@ function generateSequence(){
             if(used.has(el.nom))continue;
             const pts=parseFloat(el.pts);
             if(total+pts<=TARGET_MAX+0.01){
+                if(seq.length >= 11) continue;
                 const lastCat=seq.length>0?seq[seq.length-1].cat:null;
                 if(lastCat&&lastCat===el.cat)continue;
                 seq.push(el);used.add(el.nom);total+=pts;
@@ -743,7 +765,7 @@ function acceptSequence(){
     goToStep(3);
 }
 
-/* ═══════════════ STEP 3 — DOCUMENT (nouvelle structure) ═══════════════ */
+/* ═══════════════ STEP 3 — DOCUMENT ═══════════════ */
 function normalizeStr(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();}
 
 function loadDocumentTemplate(){
@@ -776,35 +798,77 @@ function loadDocumentTemplate(){
             <tbody id="doc_tbody"></tbody>
         </table>
         </div>
-        <p class="nb-text"><strong>NB1 :</strong> zone réservée aux membres du jury ! Le jury cochera le point correspondant au niveau de réalisation de l'élément gymnique par le candidat.</p>
-        <table class="jury-table">
-            <colgroup>
-                <col style="width:6.5%"><col style="width:6.5%"><col style="width:6.5%"><col style="width:6.5%"><col style="width:6.5%"><col style="width:6.5%"><col style="width:6.5%"><col style="width:6.5%"><col style="width:6.5%"><col style="width:6.5%"><col style="width:8%"><col style="width:10%"><col style="width:17%">
-            </colgroup>
-            <thead>
-                <tr><th colspan="2">Type A<br>1pt</th><th colspan="2">Type B<br>1,5pt</th><th colspan="2">Type C<br>2pts</th><th colspan="2">Type D<br>2,5pts</th><th colspan="2">Type E<br>3pts</th><th>ROV<br>2pts</th><th>Projet<br>2pts</th><th>Réalisation<br>16pts</th></tr>
-                <tr><th>NEG</th><th>Note</th><th>NEG</th><th>Note</th><th>NEG</th><th>Note</th><th>NEG</th><th>Note</th><th>NEG</th><th>Note</th><th>Note</th><th>Note</th><th>Note</th></tr>
-            </thead>
-            <tbody><tr>${Array(13).fill('<td class="input-cell-summary">&nbsp;</td>').join('')}</tr></tbody>
-        </table>
-        <div class="bottom-layout">
-            <div class="correctors-col">
-                <div>Correcteur Projet : ............................................</div>
-                <div>Correcteur principal : .............................................</div>
-                <div>Correcteur ROV : ............................................</div>
+        
+        <div class="bottom-section">
+            <div class="header-note">
+                <b>NB1 :</b> zone réservée aux membres du jury ! le jury cochera le point correspondant au niveau de réalisation de l'élément gymnique par le candidat
             </div>
-            <div class="note-col">
-                <svg class="brace-svg" viewBox="0 0 100 20" preserveAspectRatio="none">
-                    <path d="M2,2 Q2,12 10,12 L45,12 Q50,12 50,20 Q50,12 55,12 L90,12 Q98,12 98,2" stroke="black" fill="transparent" stroke-width="0.5"/>
-                </svg>
-                <div class="final-score-area">
-                    <span class="note-final-label">Note finale/20</span>
-                    <div class="note-final-box"></div>
+            
+            <table class="main-table">
+                <colgroup>
+                    <col style="width: 6.5%;"><col style="width: 6.5%;">
+                    <col style="width: 6.5%;"><col style="width: 6.5%;">
+                    <col style="width: 6.5%;"><col style="width: 6.5%;">
+                    <col style="width: 6.5%;"><col style="width: 6.5%;">
+                    <col style="width: 6.5%;"><col style="width: 6.5%;">
+                    <col style="width: 8%;">
+                    <col style="width: 10%;">
+                    <col style="width: 17%;"> 
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th colspan="2" class="main-header">Type A<br><span class="sub-header">1pt</span></th>
+                        <th colspan="2" class="main-header">Type B<br><span class="sub-header">1,5pt</span></th>
+                        <th colspan="2" class="main-header">Type C<br><span class="sub-header">2pts</span></th>
+                        <th colspan="2" class="main-header">Type D<br><span class="sub-header">2,5pts</span></th>
+                        <th colspan="2" class="main-header">Type E<br><span class="sub-header">3pts</span></th>
+                        <th class="main-header">ROV<br><span class="sub-header">2pts</span></th>
+                        <th class="main-header">Projet<br><span class="sub-header">2pts</span></th>
+                        <th class="main-header">Réalisation<br><span class="sub-header">16pts</span></th>
+                    </tr>
+                    <tr>
+                        <td class="neg-note-header">NEG</td>
+                        <td class="neg-note-header">Note</td>
+                        <td class="neg-note-header">NEG</td>
+                        <td class="neg-note-header">Note</td>
+                        <td class="neg-note-header">NEG</td>
+                        <td class="neg-note-header">Note</td>
+                        <td class="neg-note-header">NEG</td>
+                        <td class="neg-note-header">Note</td>
+                        <td class="neg-note-header">NEG</td>
+                        <td class="neg-note-header">Note</td>
+                        <td class="neg-note-header">Note</td>
+                        <td class="neg-note-header">Note</td>
+                        <td class="neg-note-header">Note</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="row-empty">
+                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="bottom-layout">
+                <div class="correctors-col">
+                    <div>Correcteur Projet : ............................................</div>
+                    <div>Correcteur principal : .............................................</div>
+                    <div>Correcteur ROV : ............................................</div>
+                </div>
+                <div class="note-col">
+                    <svg class="brace-svg" viewBox="0 0 100 20" preserveAspectRatio="none">
+                        <path d="M2,2 Q2,12 10,12 L45,12 Q50,12 50,20 Q50,12 55,12 L90,12 Q98,12 98,2" stroke="black" fill="transparent" stroke-width="0.5"/>
+                    </svg>
+                    <div class="final-score-area">
+                        <span class="note-final-label">Note finale/20</span>
+                        <div class="note-final-box"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="footer-box">
-            <b>NB2 :</b> Après le choix des catégories d'éléments gymniques par le candidat, ce dernier remplira la colonne de pointage selon l'orientation suivante : A (0.25 ; 0.5 ; 0.75 ; 1) B (0.25 ; 0.5 ; 0.75 ; 1 ; 1.25 ; 1.5) C (0.5 ; 0.75 ; 1 ; 1.25 ; 1.5 ; 2) D (0.75 ; 1 ; 1.25 ; 1.5 ; 2 ; 2.5) et E (0.75 ; 1 ; 1.5 ; 2 ; 2.5 ; 3) aussi, il sera exigé au candidat 2 copies de son projet sur une page ! <b>appréciations :</b> NR (non réalisation), NM (non maitrisé), <b>PM</b> (peu maitrisé) et <b>M</b> (maitrisé).
+
+            <div class="footer-box">
+                <b>NB2 :</b> Après le choix des catégories d'éléments gymniques par le candidat, ce dernier remplira la colonne de pointage selon l'orientation suivante : A (0.25 ; 0.5 ; 0.75 ; 1) B (0.25 ; 0.5 ; 0.75 ; 1 ; 1.25 ; 1.5) C (0.5 ; 0.75 ; 1 ; 1.25 ; 1.5 ; 2) D (0.75 ; 1 ; 1.25 ; 1.5 ; 2 ; 2.5) et E (0.75 ; 1 ; 1.5 ; 2 ; 2.5 ; 3) aussi, il sera exigé au candidat 2 copies de son projet sur une page ! <b>appréciations :</b> NR (non réalisation), NM (non maitrisé), <b>PM</b> (peu maitrisé) et <b>M</b> (maitrisé).
+            </div>
         </div>
     </div>`;
     updatePreview();
@@ -818,6 +882,7 @@ function updatePreview(){
     set('doc_serie',candidatData.serie||'—');
     set('doc_examen',candidatData.type_examen||'—');
     set('doc_session',candidatData.session||'—');
+    
     set('doc_title', 'PROJET INDIVIDUEL DE GYMNASTIQUE');
 
     const tbody=document.getElementById('doc_tbody');
@@ -835,8 +900,16 @@ function updatePreview(){
     updateTotalBadge();
     const preview = document.getElementById('gs_document-preview');
     if (preview) {
-        if (elementsTechniques.length > 8) preview.classList.add('compact');
-        else preview.classList.remove('compact');
+        if (elementsTechniques.length > 8) {
+            preview.classList.add('compact');
+        } else {
+            preview.classList.remove('compact');
+        }
+        if (elementsTechniques.length >= 11) {
+            preview.classList.add('max-elements');
+        } else {
+            preview.classList.remove('max-elements');
+        }
     }
 }
 
@@ -898,6 +971,12 @@ function renderElementControls(){
         container.appendChild(div);
         attachAutocomplete(div.querySelector(`#el_nom_${el.id}`),el.id);
     });
+    
+    const addBtn = document.getElementById('gs_add-element-btn');
+    if (addBtn) {
+        addBtn.style.display = elementsTechniques.length >= 11 ? 'none' : 'flex';
+    }
+
     container.querySelectorAll('.ctrl-el').forEach(inp=>inp.addEventListener('input',onElementInput));
     container.querySelectorAll('.remove-el-btn').forEach(btn=>btn.addEventListener('click',onRemoveElement));
     container.querySelectorAll('.move-up-btn').forEach(btn=>btn.addEventListener('click',e=>{
@@ -926,6 +1005,7 @@ function onRemoveElement(ev){
 }
 
 document.getElementById('gs_add-element-btn').addEventListener('click',()=>{
+    if (elementsTechniques.length >= 11) return;
     elementIdCounter++;
     elementsTechniques.push({id:elementIdCounter,nom:'',categorie:'',points:''});
     if(!document.getElementById('doc_tbody'))loadDocumentTemplate();
@@ -981,7 +1061,7 @@ function attachAutocomplete(input,id){
 
 /* ═══════════════ MODE CHOICE ═══════════════ */
 function handleModeChoice(mode){
-    if(!profile.genre){alert('Veuillez sélectionner le genre.');return;}
+    if(!profile.genre){alert('Veuillez d\'abord sélectionner le genre du candidat.');return;}
     profile.fitness=parseInt(document.getElementById('fitnessSlider').value);
     if(mode==='generate'){
         generateSequence();
@@ -996,12 +1076,16 @@ function handleModeChoice(mode){
 /* ═══════════════ EXPORT PDF ═══════════════ */
 async function exportPDF(){
     const btn=document.getElementById('btn-finish-pdf');
-    btn.textContent='⏳ Génération…';
+    btn.textContent='⏳ Génération en cours…';
     btn.disabled=true;
     try {
         const preview=document.getElementById('gs_document-preview');
-        if(!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
-        if(!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+        if(!window.html2canvas){
+            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+        }
+        if(!window.jspdf){
+            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+        }
         const canvas=await html2canvas(preview,{scale:2,useCORS:true,backgroundColor:'#ffffff'});
         const imgData=canvas.toDataURL('image/jpeg',0.95);
         const {jsPDF}=window.jspdf;
@@ -1011,23 +1095,30 @@ async function exportPDF(){
         const imgW=pageW;
         const imgH=(canvas.height*imgW)/canvas.width;
         let y=0;
-        if(imgH<=pageH) pdf.addImage(imgData,'JPEG',0,0,imgW,imgH);
-        else {
+        if(imgH<=pageH){
+            pdf.addImage(imgData,'JPEG',0,0,imgW,imgH);
+        } else {
             let remaining=imgH;
             while(remaining>0){
                 pdf.addImage(imgData,'JPEG',0,-y,imgW,imgH);
-                remaining-=pageH; y+=pageH;
-                if(remaining>0) pdf.addPage();
+                remaining-=pageH;y+=pageH;
+                if(remaining>0)pdf.addPage();
             }
         }
-        pdf.save((candidatData.nom||'enchainement').trim().replace(/\s+/g,'_')+'_gym.pdf');
+        const filename=(candidatData.nom||'enchaînement').trim().replace(/\s+/g,'_')+'_gym.pdf';
+        pdf.save(filename);
     } catch(err){
-        alert('Erreur PDF. Utilisez Ctrl+P.');
+        console.error(err);
+        alert('Erreur lors de la génération du PDF. Essaie d\'imprimer la page avec Ctrl+P.');
     }
     btn.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> J\'ai fini !';
     btn.disabled=false;
 }
-function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+function loadScript(src){
+    return new Promise((res,rej)=>{
+        const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);
+    });
+}
 
 /* ═══════════════ GIF POPOVER ═══════════════ */
 function showGifPreview(event,id){
@@ -1037,16 +1128,38 @@ function showGifPreview(event,id){
     const popover=document.getElementById('gifPopover');
     document.getElementById('gifPopoverTitle').textContent=el.nom||'Élément';
     const key=normalizeStr(el.nom||'');
-    const gifEntry=GIF_MAP[key] ? [key, GIF_MAP[key]] : Object.entries(GIF_MAP).find(([k])=>key===k||key.includes(k)||k.includes(key.substring(0,10)));
-    document.getElementById('gifPopoverContent').innerHTML=gifEntry?`<img src="${gifEntry[1]}" alt="${el.nom}" loading="lazy">`:`<div class="gif-placeholder"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Création de la prévisualisation<br>en cours…</span></div>`;
-    const btn=event.currentTarget, rect=btn.getBoundingClientRect(), pw=280;
-    let left=rect.left-(pw-rect.width)/2, top=rect.bottom+8;
-    if(left<8)left=8; if(left+pw>window.innerWidth-8)left=window.innerWidth-pw-8;
-    if(top+280>window.innerHeight)top=rect.top-280-8;
-    popover.style.left=`${Math.max(8,left)}px`; popover.style.top=`${Math.max(8,top)}px`; popover.classList.add('active');
+    
+    const gifEntry=GIF_MAP[key]
+        ? [key, GIF_MAP[key]]
+        : Object.entries(GIF_MAP).find(([k])=>key===k||key.includes(k)||k.includes(key.substring(0,10)));
+        
+    document.getElementById('gifPopoverContent').innerHTML=gifEntry
+        ?`<img src="${gifEntry[1]}" alt="${el.nom}" loading="lazy">`
+        :`<div class="gif-placeholder">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Le gif d'aperçu n'est pas encore disponible</span>
+          </div>`;
+          
+    const btn=event.currentTarget;
+    const rect=btn.getBoundingClientRect();
+    const pw=280;
+    
+    let left = rect.left - (pw - rect.width) / 2;
+    let top = rect.bottom + 8;
+    
+    if(left < 8) left = 8;
+    if(left + pw > window.innerWidth - 8) left = window.innerWidth - pw - 8;
+    if(top + 280 > window.innerHeight) top = rect.top - 280 - 8;
+    
+    popover.style.left=`${Math.max(8,left)}px`;
+    popover.style.top=`${Math.max(8,top)}px`;
+    popover.classList.add('active');
 }
+
 function closeGifPopover(){document.getElementById('gifPopover').classList.remove('active');}
-document.addEventListener('click',e=>{if(!e.target.closest('.gif-btn')&&!e.target.closest('.gif-popover'))closeGifPopover();});
+document.addEventListener('click',e=>{
+    if(!e.target.closest('.gif-btn')&&!e.target.closest('.gif-popover'))closeGifPopover();
+});
 
 /* ═══════════════ INIT ═══════════════ */
 updateFitnessLabel();
@@ -1054,4 +1167,3 @@ updateStepper();
 </script>
 </body>
 </html>
-```
