@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GymSol — Figures au Sol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --accent: #e8ff47;
+    --accent2: #47d9ff;
+    --text: #f0f0ee;
+    --muted: #7a7a85;
+    --border: rgba(255,255,255,0.07);
+    --radius: 12px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,13,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 64px;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .logo span { color: var(--text); }
+
+  .search-wrap {
+    flex: 1;
+    position: relative;
+    max-width: 420px;
+  }
+
+  .search-wrap svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  #search {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    padding: 0.55rem 1rem 0.55rem 2.4rem;
+    outline: none;
+    transition: border-color .2s;
+  }
+  #search:focus { border-color: var(--accent); }
+  #search::placeholder { color: var(--muted); }
+
+  .count-badge {
+    margin-left: auto;
+    font-size: 0.78rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .count-badge strong { color: var(--accent); }
+
+  /* ─── HERO STRIPE ─── */
+  .hero {
+    background: linear-gradient(135deg, #0d0d0f 0%, #111118 50%, #0d1a0d 100%);
+    padding: 3.5rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: 'GYMNASTE';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(6rem, 18vw, 16rem);
+    letter-spacing: .1em;
+    color: rgba(232,255,71,0.04);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 8vw, 5rem);
+    letter-spacing: .05em;
+    line-height: 1;
+    position: relative;
+  }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+  .hero p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-top: 0.7rem;
+    position: relative;
+  }
+
+  /* ─── CATEGORY PILLS ─── */
+  .cats-wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .cat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all .18s;
+    user-select: none;
+  }
+  .cat-pill:hover { border-color: var(--accent); color: var(--text); }
+  .cat-pill.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d0d0f;
+    font-weight: 500;
+  }
+  .cat-pill .pill-count {
+    background: rgba(0,0,0,0.15);
+    border-radius: 999px;
+    padding: 0 6px;
+    font-size: 0.72rem;
+    line-height: 1.6;
+  }
+  .cat-pill.active .pill-count { background: rgba(0,0,0,0.2); }
+
+  /* ─── MAIN GRID ─── */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 4rem;
+  }
+
+  .category-section { margin-bottom: 3.5rem; }
+
+  .cat-heading {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  .cat-heading h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: .06em;
+  }
+  .cat-heading-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .cat-heading-n {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .figures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  /* ─── CARD ─── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+    animation: fadeUp .35s ease both;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(232,255,71,0.3);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(232,255,71,0.15);
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(16px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .card-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background: var(--surface2);
+    display: block;
+    transition: transform .3s;
+  }
+  .card:hover .card-img { transform: scale(1.04); }
+
+  .card-img-wrap {
+    overflow: hidden;
+    position: relative;
+  }
+  .card-img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(13,13,15,0.6) 0%, transparent 50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .card:hover .card-img-wrap::after { opacity: 1; }
+
+  .card-body {
+    padding: 0.65rem 0.8rem 0.75rem;
+  }
+  .card-name {
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--text);
+  }
+  .card-cat {
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+
+  /* ─── MODAL ─── */
+  #modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  #modal-overlay.open { display: flex; }
+
+  #modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 520px;
+    width: 100%;
+    overflow: hidden;
+    animation: modalIn .22s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity:0; transform: scale(.94) translateY(12px); }
+    to   { opacity:1; transform: scale(1) translateY(0); }
+  }
+
+  #modal-img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    background: #0a0a0c;
+    display: block;
+  }
+
+  .modal-body {
+    padding: 1.2rem 1.4rem 1.4rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .modal-info h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: .04em;
+    line-height: 1.1;
+  }
+  .modal-info .modal-cat {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.75rem;
+    color: #0d0d0f;
+    background: var(--accent);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+
+  #modal-close {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.5rem 0.7rem;
+    font-size: 1rem;
+    transition: all .15s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  #modal-close:hover { background: var(--accent); color: #0d0d0f; border-color: var(--accent); }
+
+  /* ─── EMPTY STATE ─── */
+  #empty {
+    display: none;
+    text-align: center;
+    padding: 5rem 2rem;
+    color: var(--muted);
+  }
+  #empty.show { display: block; }
+  #empty h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: .05em;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    .header-inner { gap: 1rem; }
+    .logo { font-size: 1.4rem; }
+    .figures-grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); }
+    main { padding: 1rem 1rem 3rem; }
+    .cats-wrap { padding: 1rem 1rem 0.5rem; }
+    .hero { padding: 2.5rem 1rem 2rem; }
+  }
+
+  /* img loading shimmer */
+  .card-img[src] { background: var(--surface2); }
+  @keyframes shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+  }
+  .card-img:not([complete]) {
+    background: linear-gradient(90deg, #1e1e24 25%, #25252c 50%, #1e1e24 75%);
+    background-size: 800px 100%;
+    animation: shimmer 1.4s infinite;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">Gym<span>Sol</span></div>
+    <div class="search-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="search" id="search" placeholder="Chercher une figure…" autocomplete="off">
+    </div>
+    <div class="count-badge" id="count-badge"></div>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Figures au <em>Sol</em></h1>
+  <p>Bibliothèque animée de gymnastique — EPS</p>
+</div>
+
+<div class="cats-wrap" id="cats-wrap"></div>
+
+<main id="main"></main>
+
+<div id="empty">
+  <h3>Aucune figure trouvée</h3>
+  <p>Essayez un autre mot-clé ou réinitialisez les filtres.</p>
+</div>
+
+<!-- Modal -->
+<div id="modal-overlay" role="dialog" aria-modal="true">
+  <div id="modal">
+    <img id="modal-img" src="" alt="">
+    <div class="modal-body">
+      <div class="modal-info">
+        <h3 id="modal-name"></h3>
+        <span class="modal-cat" id="modal-cat"></span>
+      </div>
+      <button id="modal-close" aria-label="Fermer">✕</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = [{"category":"Sauts et tours","figures":[{"name":"Prise d'élan","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/elanani.gif"},{"name":"Saut groupé","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/SautGroupe.GIF"},{"name":"Saut carpé","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/SautCarpe.GIF"},{"name":"Saut vertical 1/2 tour","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/SautDTour.GIF"},{"name":"Saut vertical Tour complet","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/SautTour.GIF"},{"name":"Debout Tour complet sur 1 jambe","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/tourcomplet.GIF"},{"name":"Couronné 1","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/couronne.gif"},{"name":"Couronné 1/2 tour","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/cercle-jambe2.gif"},{"name":"De l'appui facial , Tour complet","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/soltourcomplet.GIF"},{"name":"Saut assemblé, Saut de biche","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/AsSautBiche.GIF"},{"name":"Saut assemblé, Sissone","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/AssembleSissone.GIF"},{"name":"Saut de chat","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/SautChat.GIF"},{"name":"Grand jeté changement, pied tête","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Grand-jete-changement-pied-tete.gif"},{"name":"Saut de chat 1 tour","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/SautChat_1Tour.gif"},{"name":"Saut tournant","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/SautTournant.GIF"},{"name":"Saut cosaque","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Saut_cosaque.gif"}]},{"category":"Roulades","figures":[{"name":"Roulade avant simple","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/RldeAvtSimple.gif"},{"name":"Roulade avant élevée arrivée jambes groupées","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/RldeAvtElevee.GIF"},{"name":"Roulade avant élevée, impulsion sur 1 jambe","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Roulade%20avant,%20impulsion%20sur%201%20appui.gif"},{"name":"Fente, Roulade avant","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/fenterldeavat.GIF"},{"name":"Roulade avant arrivée jambes tendues","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/RldeAvttendue.GIF"},{"name":"Roulade avant arrivée jambes écarts","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/RldeAvtecart.GIF"},{"name":"Roulade avant arrivée sur 1 jambe","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/rldeavt1jbe.gif"},{"name":"Roulade avant, sans les mains","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Roulade_avant_sans_mains.gif"},{"name":"Saut de l'ange","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/SautAnge.GIF"},{"name":"Saut de l'ange vrillé","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/saut_ange_vrille.gif"},{"name":"Roulade arrière groupée","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/RldeArrGroupee.gif"},{"name":"Roulade arrière repoussée vers l'ATR","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Raratr.gif"},{"name":"Roulade arrière tendue","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/RARTendue.gif"},{"name":"Changement de face, roulade arrière groupée","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ChgtFaceRldeAr.GIF"},{"name":"Roulade arrière départ appui dorsal","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/RAR2a.gif"}]},{"category":"ATR","figures":[{"name":"ATR passager","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRpassage.GIF"},{"name":"ATR Fente","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATR%20fente.gif"},{"name":"Trépied","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Trepied.GIF"},{"name":"ATR roulade avant","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRRldeAVT.GIF"},{"name":"ATR Roulade avant écart","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRRldeAvtecart.GIF"},{"name":"Planche écart ATR","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/PlancheecartATR.GIF"},{"name":"ATR, 1/2 valse","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRDValse.GIF"},{"name":"1/2 Valse roulade avant écart","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRDValseRldeEcart.GIF"},{"name":"ATR coupé écart","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRcoupeecart.GIF"},{"name":"ATR \"plombé\"","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATR_plombe.gif"},{"name":"ATR en force","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRForce0.GIF"},{"name":"départ accroupi","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRForce0.GIF"},{"name":"ATR en force départ à genoux","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRForce.GIF"},{"name":"ATR en force départ à genoux, montée jambes tendues","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRForce2.GIF"},{"name":"ATR en force, départ assit jambes écarts","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATR-en-force-depart-assit-ecart.gif"},{"name":"ATR en force 1/4 de valse","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRforce3.gif"}]},{"category":"Roue, Rondade, Flip","figures":[{"name":"Roue","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Roue.GIF"},{"name":"Roue sautée","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Roue_sautee.gif"},{"name":"Roue sans les mains","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Roue-sans-les-mains.gif"},{"name":"Roue arabe","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/roue-arabe.gif"},{"name":"Préparation roue - rondade","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/impulsion_rdde.gif"},{"name":"Rondade","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Rondade.GIF"},{"name":"Rondade saut carpé","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/RondadeCarpee.GIF"},{"name":"Rondade Flip","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/RondadeFlip.GIF"},{"name":"Flip avant","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/flip_avant.gif"},{"name":"Rondade, Saut de l'ange","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/RondadeStange.GIF"},{"name":"Flip arrière","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/flipa.gif"}]},{"category":"Flip, Salto, autres","figures":[{"name":"Chandelle","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Chandelle.GIF"},{"name":"Chandelle, ciseaux","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Chandelle-ciseaux.gif"},{"name":"Chandelle, Roulade avant","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ChandelleRldeAvt.GIF"},{"name":"Chandelle, ATR","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ChandelleATR.GIF"},{"name":"Saut de tête","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Sttete.gif"},{"name":"Bascule de nuque","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/bascule_de_nuque.gif"},{"name":"Saut de main","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/stmaina.gif"},{"name":"Salto avant groupé","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Saltoavant.GIF"},{"name":"Salto costal - Side Flip","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Salto%20costal-Side%20Flip.gif"},{"name":"Roue - salto costal","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/roue_salto_costal.gif"},{"name":"Salto avant tendu","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/salto-avant-tendu.gif"},{"name":"Coup de pied à la lune Kick The Moon","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/coup-pied-lune-kick-the-moon.gif"},{"name":"Salto arrière départ tremplin","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/SaltoArriere.GIF"},{"name":"Salto arrière groupé","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Salto-arri%C3%A8re-2.gif"},{"name":"Cercles Thomas","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/thomasb.GIF"}]},{"category":"Positions, tenus, en force","figures":[{"name":"Equerre groupée","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/equerre_groupee.gif"},{"name":"Equerre écart","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/equerre_ecart.gif"},{"name":"Equerre tendue","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/equerre_tendue.gif"},{"name":"Planche crocodile sur 2 bras","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/planche_croco_2bras.gif"},{"name":"Planche crocodile sur 1 bras","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/planche_croco_1bras.gif"},{"name":"Y tenu","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Y-tenu.gif"}]},{"category":"Figures filles complémentaires","figures":[{"name":"Onde avant","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/OndeAvant.GIF"},{"name":"Tour enveloppé","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/tourenv.gif"},{"name":"ATR Pont","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRPont.GIF"},{"name":"ATR Pont 1 jambe","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATR-Pont-1-jambe.gif"}]},{"category":"Liaisons garçons","figures":[{"name":"Liaison appui dorsal-debout","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/liaisonG2.gif"},{"name":"Liaison changement de direction debout","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/liaison.gif"},{"name":"ATR-liaison","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/ATRliaison2.gif"},{"name":"Saut liaison","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/saut%20liaison.gif"},{"name":"Liaison debout avec 1/2 tour","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/liaisonG5.gif"},{"name":"Debout - sol suédois","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/Debout_sol_suedois.gif"}]},{"category":"Liaisons filles","figures":[{"name":"Liaison fille en gym","gif_url":"https://bernard-lefort-eps.fr/gym/sol_anime/liaisonfille2.GIF"}]}];
+
+let activeCategory = 'Tous';
+let searchQuery = '';
+
+const catsWrap = document.getElementById('cats-wrap');
+const mainEl   = document.getElementById('main');
+const emptyEl  = document.getElementById('empty');
+const badge    = document.getElementById('count-badge');
+const searchEl = document.getElementById('search');
+const overlay  = document.getElementById('modal-overlay');
+const modalImg = document.getElementById('modal-img');
+const modalName= document.getElementById('modal-name');
+const modalCat = document.getElementById('modal-cat');
+
+// Build category pills
+const allCats = ['Tous', ...DATA.map(c => c.category)];
+allCats.forEach(cat => {
+  const count = cat === 'Tous'
+    ? DATA.reduce((s, c) => s + c.figures.length, 0)
+    : DATA.find(c => c.category === cat).figures.length;
+
+  const pill = document.createElement('button');
+  pill.className = 'cat-pill' + (cat === 'Tous' ? ' active' : '');
+  pill.innerHTML = `${cat} <span class="pill-count">${count}</span>`;
+  pill.addEventListener('click', () => {
+    activeCategory = cat;
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    render();
+  });
+  catsWrap.appendChild(pill);
+});
+
+searchEl.addEventListener('input', e => {
+  searchQuery = e.target.value.toLowerCase().trim();
+  render();
+});
+
+function render() {
+  mainEl.innerHTML = '';
+  let total = 0;
+
+  DATA.forEach(cat => {
+    if (activeCategory !== 'Tous' && cat.category !== activeCategory) return;
+
+    const figures = cat.figures.filter(f =>
+      !searchQuery || f.name.toLowerCase().includes(searchQuery)
+    );
+    if (!figures.length) return;
+
+    total += figures.length;
+
+    const section = document.createElement('div');
+    section.className = 'category-section';
+    section.id = 'cat-' + cat.category.replace(/\s+/g,'-');
+
+    section.innerHTML = `
+      <div class="cat-heading">
+        <h2>${cat.category}</h2>
+        <div class="cat-heading-line"></div>
+        <span class="cat-heading-n">${figures.length} figure${figures.length > 1 ? 's' : ''}</span>
+      </div>
+      <div class="figures-grid"></div>
+    `;
+
+    const grid = section.querySelector('.figures-grid');
+
+    figures.forEach((fig, i) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.animationDelay = `${i * 0.03}s`;
+      card.innerHTML = `
+        <div class="card-img-wrap">
+          <img class="card-img" src="${fig.gif_url}" alt="${fig.name}" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-name">${fig.name}</div>
+          <div class="card-cat">${cat.category}</div>
+        </div>
+      `;
+      card.addEventListener('click', () => openModal(fig, cat.category));
+      grid.appendChild(card);
+    });
+
+    mainEl.appendChild(section);
+  });
+
+  badge.innerHTML = `<strong>${total}</strong> figure${total > 1 ? 's' : ''}`;
+  emptyEl.classList.toggle('show', total === 0);
+}
+
+function openModal(fig, cat) {
+  modalImg.src = fig.gif_url;
+  modalImg.alt = fig.name;
+  modalName.textContent = fig.name;
+  modalCat.textContent = cat;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  modalImg.src = '';
+}
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+render();
+</script>
+</body>
+</html>
