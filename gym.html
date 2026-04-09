@@ -7,7 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-  :root {
+
+:root {
     --bg: #0d0d0f;
     --surface: #16161a;
     --surface2: #1e1e24;
@@ -365,14 +366,36 @@
     color: var(--text);
   }
 
-  /* ─── RESPONSIVE ─── */
+  /* ─── RESPONSIVE (MOBILE) ─── */
   @media (max-width: 600px) {
     .header-inner { gap: 1rem; }
     .logo { font-size: 1.4rem; }
     .figures-grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); }
     main { padding: 1rem 1rem 3rem; }
-    .cats-wrap { padding: 1rem 1rem 0.5rem; }
     .hero { padding: 2.5rem 1rem 2rem; }
+    
+    /* Boutons de catégories en scroll horizontal */
+    .cats-wrap { 
+      padding: 1rem 1rem 0.5rem;
+      flex-wrap: nowrap; /* Force sur une seule ligne */
+      overflow-x: auto; /* Active le défilement */
+      -webkit-overflow-scrolling: touch; /* Scroll fluide iOS */
+      
+      /* Masquer la scrollbar */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+    }
+    
+    /* Masquer la scrollbar Chrome/Safari */
+    .cats-wrap::-webkit-scrollbar { 
+      display: none; 
+    }
+
+    /* Empêcher l'écrasement des boutons */
+    .cat-pill {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
   }
 
   /* img loading shimmer */
@@ -386,6 +409,8 @@
     background-size: 800px 100%;
     animation: shimmer 1.4s infinite;
   }
+
+
 </style>
 </head>
 <body>
